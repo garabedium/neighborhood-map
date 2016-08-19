@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Neighborhood Map Project</title>
+	<link rel="stylesheet" type="text/css" href="dist/css/normalize.css">
+	<style>
+    html,body{
+      height: 100%;
+    }
+  	#map {
+  		width: 100%;
+  		height: 100%;
+  	}
+	</style>
+</head>
+<body>
+   <div id="map"></div>
+    <script>
+      //var map;
+      var model = {}
+
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: -34.397, lng: 150.644},
+          zoom: 8
+        });
+
+      }
+
+   // function gmapsError(){
+   //    alert('error');
+   //  };
+
+    </script>
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOomDghDBh0XiIpMbixy04-X1aSNnGhkU&callback=initMap" onerror>
+</script>
+</body>
+</html>

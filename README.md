@@ -4,10 +4,27 @@
 Go online to....
 
 ## Credits
-- [Variable For Loops](http://stackoverflow.com/questions/6645067/javascript-dynamically-creating-variables-for-loops)
-- [Call-Bind Methods](http://javascriptissexy.com/javascript-apply-call-and-bind-methods-are-essential-for-javascript-professionals/)
-- [Generating Random Numbers](http://stackoverflow.com/questions/1527803/generating-random-whole-numbers-in-javascript-in-a-specific-range)
-- [Enemy Movement](https://discussions.udacity.com/t/game-design-and-enemies-moving/35473/2)
-- [Collision Detection](https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection)
-- [Bug's Life Font](http://www.dafont.com/a-bugs-life.font)
-- [Scoping Function](http://stackoverflow.com/questions/5786851/define-global-variable-in-a-javascript-function)
+- [Skeleton - Responsive Framework](http://getskeleton.com/)
+- [window.onerror](http://stackoverflow.com/questions/3677783/is-it-possible-to-catch-exceptions-thrown-in-a-javascript-async-callback)
+- [Async Fallback](https://discussions.udacity.com/t/handling-google-maps-in-async-and-fallback/34282)
+
+## APIs
+[]
+
+### Requirements
+[X] Add full-screen map using Google Maps API, call API only once
+[] Handle error messages gracefully
+[] Use Knockout for: list, filter, any information on page subject to change
+[] Load APIs asyonchronously
+[] Display at least 5 locations of interest on page load
+[] Implement a list view of locations
+[] Make a filter option that uses an input field to filter both list and map view.
+[] Add functionality to animate map marker when either the list item or map marker is itself is clicked
+[] Add third party API info when a map marker or list item is clicked
+[] Interface should be intuitive
+
+### Outline
+- Bike Shops in São Paulo
+- Filter shops by: neighborhood? name?
+- Show images from streetview
+- Use 3rd party API? - Foursquare?
