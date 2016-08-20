@@ -21,12 +21,13 @@
 
       var map;
       var locations = [
-        {lat: 52.511, lng: 13.447},
-        {lat: 52.549, lng: 13.422},
-        {lat: 52.497, lng: 13.396},
-        {lat: 52.517, lng: 13.394}
+        {title:'Ipsum', content:'<p>Hello world</p>', location: {lat: 52.511, lng: 13.447}},
+        {title:'Lorem', content:'<p>Hello gurl</p>', location: {lat: 52.549, lng: 13.422}},
+        {title:'Solom', content:'<p>Hello pup</p>', location: {lat: 52.497, lng: 13.396}},
+        {title:'Florem', content:'<p>Hello tinha</p>', location: {lat: 52.517, lng: 13.394}}
       ];
       var markers = [];
+      var callInfoWindow;
 
       function initMap() {
 
@@ -35,28 +36,39 @@
           zoom: 12
         });
 
-        function addMarkers(){
+        for (var i = 0; i < locations.length; i++) {
 
-          for (var i = 0; i < locations.length; i++) {
-           var marker = new google.maps.Marker({
-                map: map,
-                animation: google.maps.Animation.DROP,
-                position: locations[i]
-              })
-            marker.addListener('click', function() {
-              alert('test');
+          var title = locations[i].title;
+
+          var marker = new google.maps.Marker({
+              map: map,
+              title: title,
+              content: locations[i].content,
+              animation: google.maps.Animation.DROP,
+              position: locations[i].location
+          });
+
+          var infowindow = new google.maps.InfoWindow({
+              content: 'some content'
             });
-          }
 
-        }; addMarkers();
+          marker.addListener('click', function() {
+            infowindow.open(map, this)
+          });
 
-        // var marker = new google.maps.Marker({
-        //   position: someVar,
-        //   map: map,
-        //   title: 'hello world'
-        // });
+        }
 
-      }
+      } // initMap
+
+            // var infowindow = new google.maps.InfoWindow({
+            //   content: marker.title
+            // });
+
+            // marker.addListener('click', function() {
+            //   infoWindow.setContent()
+            //   infowindow.open(map,this);
+            //   //alert('umm' + i);
+            // });
 
     </script>
 <script async defer
