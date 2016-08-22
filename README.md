@@ -7,6 +7,7 @@ Go online to....
 - [Skeleton - Responsive Framework](http://getskeleton.com/)
 - [window.onerror](http://stackoverflow.com/questions/3677783/is-it-possible-to-catch-exceptions-thrown-in-a-javascript-async-callback)
 - [Async Fallback](https://discussions.udacity.com/t/handling-google-maps-in-async-and-fallback/34282)
+- [setZoom after fitbounds](http://stackoverflow.com/questions/15719951/google-maps-api-v3-auto-center-map-with-multiple-markers)
 
 ## APIs
 []
@@ -16,7 +17,7 @@ Go online to....
 [] Handle error messages gracefully
 [] Use Knockout for: list, filter, any information on page subject to change
 [] Load APIs asyonchronously
-[] Display at least 5 locations of interest on page load
+[X] Display at least 5 locations of interest on page load
 [] Implement a list view of locations
 [] Make a filter option that uses an input field to filter both list and map view.
 [] Add functionality to animate map marker when either the list item or map marker is itself is clicked

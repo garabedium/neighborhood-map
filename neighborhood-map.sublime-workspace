@@ -180,10 +180,13 @@
 	"buffers":
 	[
 		{
+			"contents": "<!DOCTYPE html>\n<html>\n<head>\n	<title>Neighborhood Map Project</title>\n	<link rel=\"stylesheet\" type=\"text/css\" href=\"dist/css/normalize.css\">\n	<style>\n    html,body{\n      height: 100%;\n    }\n  	#map {\n  		width: 100%;\n  		height: 100%;\n  	}\n	</style>\n</head>\n<body>\n   <div id=\"map\"></div>\n    <script>\n      //var map;\n      var model = {\n        \n      };\n\n      var map;\n      var locations = [\n        {title:'Ipsum', content:'<p>Hello world</p>', location: {lat: 52.511, lng: 13.447}},\n        {title:'Lorem', content:'<p>Hello gurl</p>', location: {lat: 52.549, lng: 13.422}},\n        {title:'Solom', content:'<p>Hello pup</p>', location: {lat: 52.497, lng: 13.396}},\n        {title:'Florem', content:'<p>Hello tinha</p>', location: {lat: 52.517, lng: 13.394}},\n        {title:'Deplorem', content:'<p>Marhaba</p>', location: {lat: 52.530, lng: 13.400}}\n      ];\n      var markers = [];\n      var callInfoWindow;\n\n      function initMap() {\n\n        map = new google.maps.Map(document.getElementById('map'), {\n          center: {lat: 52.520, lng: 13.410},\n          zoom: 12\n        });\n\n        for (var i = 0; i < locations.length; i++) {\n\n          var title = locations[i].title;\n\n          var marker = new google.maps.Marker({\n              map: map,\n              title: title,\n              content: locations[i].content,\n              animation: google.maps.Animation.DROP,\n              position: locations[i].location\n          });\n\n          var infowindow = new google.maps.InfoWindow();\n\n          marker.addListener('click', function() {\n            infowindow.setContent(this.title + this.content);\n            infowindow.open(map, this);\n          });\n\n        }\n\n      } // initMap\n\n    </script>\n<script async defer\n  src=\"https://maps.googleapis.com/maps/api/js?key=AIzaSyAOomDghDBh0XiIpMbixy04-X1aSNnGhkU&callback=initMap\" onerror>\n</script>\n</body>\n</html>",
 			"file": "index.html",
+			"file_size": 1867,
+			"file_write_time": 131163480480000000,
 			"settings":
 			{
-				"buffer_size": 1060,
+				"buffer_size": 1884,
 				"line_ending": "Unix"
 			}
 		},
@@ -191,7 +194,7 @@
 			"file": "README.md",
 			"settings":
 			{
-				"buffer_size": 1039,
+				"buffer_size": 1141,
 				"line_ending": "Unix"
 			}
 		}
@@ -678,15 +681,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1060,
+						"buffer_size": 1884,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								934,
-								934
+								349,
+								349
 							]
 						],
 						"settings":
@@ -696,7 +699,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 62.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -708,15 +711,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1039,
+						"buffer_size": 1141,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								270,
-								270
+								615,
+								615
 							]
 						],
 						"settings":
@@ -895,9 +898,13 @@
 	"select_project":
 	{
 		"height": 500.0,
-		"last_filter": "texti",
+		"last_filter": "udac",
 		"selected_items":
 		[
+			[
+				"udac",
+				"~/Sites/udacity/udacity.sublime-project"
+			],
 			[
 				"texti",
 				"~/Sites/udacity/javascript/text-twist/text-twist.sublime-project"
@@ -941,10 +948,6 @@
 			[
 				"amobikes",
 				"~/Sites/amobikes/amobikes.sublime-project"
-			],
-			[
-				"udac",
-				"~/Sites/udacity/udacity.sublime-project"
 			],
 			[
 				"uda",

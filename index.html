@@ -16,60 +16,62 @@
 <body>
    <div id="map"></div>
     <script>
-      //var map;
-      var model = {}
-
       var map;
-      var locations = [
-        {title:'Ipsum', content:'<p>Hello world</p>', location: {lat: 52.511, lng: 13.447}},
-        {title:'Lorem', content:'<p>Hello gurl</p>', location: {lat: 52.549, lng: 13.422}},
-        {title:'Solom', content:'<p>Hello pup</p>', location: {lat: 52.497, lng: 13.396}},
-        {title:'Florem', content:'<p>Hello tinha</p>', location: {lat: 52.517, lng: 13.394}}
-      ];
-      var markers = [];
-      var callInfoWindow;
+      var ViewModel = {
+        shops:[
+          {title:'Ipsum', content:'<p>Hello world</p>', location: {lat: 52.511, lng: 13.447}},
+          {title:'Lorem', content:'<p>Hello gurl</p>', location: {lat: 52.549, lng: 13.422}},
+          {title:'Solom', content:'<p>Hello pup</p>', location: {lat: 52.497, lng: 13.396}},
+          {title:'Florem', content:'<p>Hello tinha</p>', location: {lat: 52.517, lng: 13.394}},
+          {title:'Deplorem', content:'<p>Marhaba</p>', location: {lat: 52.530, lng: 13.400}}
+        ],
+        markers:[]
+      };
 
       function initMap() {
 
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 52.520, lng: 13.410},
-          zoom: 12
-        });
+          map = new google.maps.Map(document.getElementById('map'), {
+            //center: ViewModel.shops[0].location,
+            //zoom: 15
+          });
 
-        for (var i = 0; i < locations.length; i++) {
+          var infowindow = new google.maps.InfoWindow();
+          var bounds = new google.maps.LatLngBounds();
 
-          var title = locations[i].title;
+        for (var i = 0; i < ViewModel.shops.length; i++) {
+
+          var data = ViewModel.shops[i],
+              title = data.title,
+              content = data.content,
+              position = data.location;
 
           var marker = new google.maps.Marker({
               map: map,
               title: title,
-              content: locations[i].content,
+              content: content,
               animation: google.maps.Animation.DROP,
-              position: locations[i].location
+              position: position
           });
 
-          var infowindow = new google.maps.InfoWindow({
-              //content: 'some content'
-          });
+          // Push marker to blank markers array
+          ViewModel.markers.push(marker);
 
+          // Click event to open infowindows
           marker.addListener('click', function() {
-            infowindow.setContent(this.title);
+            infowindow.setContent(this.title + this.content);
             infowindow.open(map, this);
           });
 
+          bounds.extend(ViewModel.markers[i].position);
+
         }
-
+          map.fitBounds(bounds);
+          // Set zoom after fitBounds
+          // var listener = google.maps.event.addListener(map, "idle", function () {
+          //     map.setZoom(13);
+          //     google.maps.event.removeListener(listener);
+          // });
       } // initMap
-
-            // var infowindow = new google.maps.InfoWindow({
-            //   content: marker.title
-            // });
-
-            // marker.addListener('click', function() {
-            //   infoWindow.setContent()
-            //   infowindow.open(map,this);
-            //   //alert('umm' + i);
-            // });
 
     </script>
 <script async defer
