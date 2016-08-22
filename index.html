@@ -49,11 +49,12 @@
           });
 
           var infowindow = new google.maps.InfoWindow({
-              content: 'some content'
-            });
+              //content: 'some content'
+          });
 
           marker.addListener('click', function() {
-            infowindow.open(map, this)
+            infowindow.setContent(this.title);
+            infowindow.open(map, this);
           });
 
         }
