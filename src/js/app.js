@@ -29,19 +29,24 @@ function apiFallback(input){
   }
 }
 
+ var places = [
+  {"title" : "apple"},
+  {"title" : "lemon"},
+  {"title" : "orange"}
+];
+
 function ViewModel(){
+  var self = this;
 
-  this.appName = 'Neighborhood Map';
-  this.locations = ko.observableArray(Model.shops);
-  this.searchInput = ko.observable();
+  self.appName = ko.observable('Neighborhood Map');
+  self.locations = ko.observableArray(Model.shops);
+  self.searchQuery = ko.observable('');
 
-  // self.filterList = ko.pureComputed(function() {
-  //     var all = this.locations(), matchingItems = [];
-  //     for (var i = 0; i < all.length; i++)
-  //         if (all[i].matchingItems())
-  //             matchingItems.push(all[i]);
-  //     return matchingItems;
-  // }, self);
+  self.search = ko.computed(function(){
+    return ko.utils.arrayFilter(self.locations(), function(loc){
+      return loc.title.toLowerCase().indexOf(self.searchQuery().toLowerCase()) >= 0;
+    });
+  });
 
 };
 

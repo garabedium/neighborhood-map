@@ -23,18 +23,19 @@
       <div class="row">
         <h1 data-bind="text: appName"></h1>
         <form>
-          <input type="text" name="search" autocomplete="off"
-            data-bind="textInput: searchInput" >
+          <input type="search" name="search" autocomplete="off"
+            data-bind="textInput: searchQuery">
           <button type="submit">Submit</button>
         </form>
-        <div data-bind="text: searchInput"></div>
-        <ul id="results" data-bind="foreach: locations">
+        <!-- <div data-bind="text: searchInput"></div> -->
+        <ul id="results" data-bind="foreach: search()">
             <li data-bind="text: title"></li>
         </ul>
       </div>
     </div>
 
   </header>
+
   <section id="map"></section>
 
 <script async defer
@@ -42,6 +43,8 @@
 </script>
 <script src="dist/js/knockoutjs-3.4.0.min.js"></script>
 <script src="src/js/app.js"></script>
+
+
 
 </body>
 </html>
