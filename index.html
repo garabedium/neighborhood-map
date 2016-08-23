@@ -18,17 +18,25 @@
 <body>
 
   <header>
-    <h1 data-bind="text: firstName"></h1>
-<!--     <ul id="results" data-bind="foreach: searchResuls">
-        <li>
-            <button data-bind="click: $parent.changeCat, text: name">
-        </li>
-    </ul> -->
+
+    <div class="container">
+      <div class="row">
+        <h1 data-bind="text: appName"></h1>
+        <form data-bind="submit: doSomething">
+          <input type="text" name="search" placeholder="Filter">
+          <button type="submit">Submit</button>
+        </form>
+        <ul id="results" data-bind="foreach: someList">
+            <li data-bind="text: title"></li>
+        </ul>
+      </div>
+    </div>
+
   </header>
   <section id="map"></section>
 
 <script async defer
-  src="https://mxps.googleapis.com/maps/api/js?key=AIzaSyAOomDghDBh0XiIpMbixy04-X1aSNnGhkU&callback=initApp" onerror="initApp()">
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOomDghDBh0XiIpMbixy04-X1aSNnGhkU&callback=initApp" onerror="initApp()">
 </script>
 <script src="dist/js/knockoutjs-3.4.0.min.js"></script>
 <script src="src/js/app.js"></script>

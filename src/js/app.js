@@ -6,6 +6,7 @@ var Model = {
       {title:'Solom', content:'<p>Hello pup</p>', location: {lat: 52.497, lng: 13.396}},
       {title:'Florem', content:'<p>Hello tinha</p>', location: {lat: 52.517, lng: 13.394}},
       {title:'Deplorem', content:'<p>Marhaba</p>', location: {lat: 52.530, lng: 13.400}}
+      //{title:'Testem', content:'<p>Testor</p>', location: {lat: 52.30, lng: 13.388}}
     ],
     markers:[]
 };
@@ -30,8 +31,13 @@ function apiFallback(input){
 
 function ViewModel(){
   var self = this;
-  self.firstName = 'Bert';
-  self.lastName = 'Bertington';
+  self.appName = 'Neighborhood Map';
+  self.someList = ko.observable( Model.shops );
+
+  doSomething = function(formElement) {
+            alert('goddamn')
+        }
+
 };
 
 function initMap() {
@@ -72,7 +78,7 @@ function initMap() {
 
   }
     map.fitBounds(bounds);
-}
+};
 
 
 
