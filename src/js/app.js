@@ -33,7 +33,7 @@ function ViewModel(){
 
   this.appName = 'Neighborhood Map';
   this.locations = ko.observableArray(Model.shops);
-  this.searchInput = ko.observable('');
+  this.searchInput = ko.observable();
 
   // self.filterList = ko.pureComputed(function() {
   //     var all = this.locations(), matchingItems = [];
