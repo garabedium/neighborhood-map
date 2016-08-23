@@ -180,13 +180,13 @@
 	"buffers":
 	[
 		{
-			"contents": "<!DOCTYPE html>\n<html>\n<head>\n	<title>Neighborhood Map Project</title>\n	<link rel=\"stylesheet\" type=\"text/css\" href=\"dist/css/normalize.css\">\n	<style>\n    html,body{\n      height: 100%;\n    }\n  	#map {\n  		width: 100%;\n  		height: 100%;\n  	}\n	</style>\n</head>\n<body>\n   <div id=\"map\"></div>\n    <script>\n      //var map;\n      var model = {\n        \n      };\n\n      var map;\n      var locations = [\n        {title:'Ipsum', content:'<p>Hello world</p>', location: {lat: 52.511, lng: 13.447}},\n        {title:'Lorem', content:'<p>Hello gurl</p>', location: {lat: 52.549, lng: 13.422}},\n        {title:'Solom', content:'<p>Hello pup</p>', location: {lat: 52.497, lng: 13.396}},\n        {title:'Florem', content:'<p>Hello tinha</p>', location: {lat: 52.517, lng: 13.394}},\n        {title:'Deplorem', content:'<p>Marhaba</p>', location: {lat: 52.530, lng: 13.400}}\n      ];\n      var markers = [];\n      var callInfoWindow;\n\n      function initMap() {\n\n        map = new google.maps.Map(document.getElementById('map'), {\n          center: {lat: 52.520, lng: 13.410},\n          zoom: 12\n        });\n\n        for (var i = 0; i < locations.length; i++) {\n\n          var title = locations[i].title;\n\n          var marker = new google.maps.Marker({\n              map: map,\n              title: title,\n              content: locations[i].content,\n              animation: google.maps.Animation.DROP,\n              position: locations[i].location\n          });\n\n          var infowindow = new google.maps.InfoWindow();\n\n          marker.addListener('click', function() {\n            infowindow.setContent(this.title + this.content);\n            infowindow.open(map, this);\n          });\n\n        }\n\n      } // initMap\n\n    </script>\n<script async defer\n  src=\"https://maps.googleapis.com/maps/api/js?key=AIzaSyAOomDghDBh0XiIpMbixy04-X1aSNnGhkU&callback=initMap\" onerror>\n</script>\n</body>\n</html>",
+			"contents": "<!DOCTYPE html>\n<html>\n<head>\n	<title>Neighborhood Map Project</title>\n  <script src=\"dist/js/knockoutjs-3.4.0.min.js\"></script>\n	<link rel=\"stylesheet\" type=\"text/css\" href=\"dist/css/normalize.css\">\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"dist/css/skeleton.css\">\n	<style>\n    html,body{\n      height: 100%;\n    }\n  	#map {\n  		width: 100%;\n  		height: 100%;\n  	}\n	</style>\n</head>\n<body>\n\n  <header>\n    <h1>Neighborhood Mapz</h1>\n<!--     <ul id=\"results\" data-bind=\"foreach: searchResuls\">\n        <li>\n            <button data-bind=\"click: $parent.changeCat, text: name\">\n        </li>\n    </ul> -->\n  </header>\n  <section id=\"map\"></section>\n    <script>\n\n      var map, mapOptions;\n\n      var ViewModel = function(){\n        shops:[\n          {title:'Ipsum', content:'<p>Hello world</p>', location: {lat: 52.511, lng: 13.447}},\n          {title:'Lorem', content:'<p>Hello gurl</p>', location: {lat: 52.549, lng: 13.422}},\n          {title:'Solom', content:'<p>Hello pup</p>', location: {lat: 52.497, lng: 13.396}},\n          {title:'Florem', content:'<p>Hello tinha</p>', location: {lat: 52.517, lng: 13.394}},\n          {title:'Deplorem', content:'<p>Marhaba</p>', location: {lat: 52.530, lng: 13.400}}\n        ],\n        markers:[]\n\n\n      function initMap() {\n          mapOptions = { mapTypeControl: false };\n          map = new google.maps.Map(document.getElementById('map'), mapOptions);\n\n          var infowindow = new google.maps.InfoWindow();\n          var bounds = new google.maps.LatLngBounds();\n\n        for (var i = 0; i < ViewModel.shops.length; i++) {\n\n          var data = ViewModel.shops[i],\n              title = data.title,\n              content = data.content,\n              position = data.location;\n\n          var marker = new google.maps.Marker({\n              map: map,\n              title: title,\n              content: content,\n              animation: google.maps.Animation.DROP,\n              position: position\n          });\n\n          // Push marker to blank markers array\n          ViewModel.markers.push(marker);\n\n          // Click event to open infowindows\n          marker.addListener('click', function() {\n            infowindow.setContent(this.title + this.content);\n            infowindow.open(map, this);\n          });\n\n          bounds.extend(ViewModel.markers[i].position);\n\n        }\n          map.fitBounds(bounds);\n      }\n  };\n      // var listViewModel = function(){\n      //   searchResults\n      // };\n      ko.applyBindings(new ViewModel);\n    </script>\n\n<script async defer\n  src=\"https://maps.googleapis.com/maps/api/js?key=AIzaSyAOomDghDBh0XiIpMbixy04-X1aSNnGhkU&callback=initMap\" onerror>\n</script>\n</body>\n</html>",
 			"file": "index.html",
-			"file_size": 1867,
-			"file_write_time": 131163480480000000,
+			"file_size": 2674,
+			"file_write_time": 131163572640000000,
 			"settings":
 			{
-				"buffer_size": 1884,
+				"buffer_size": 2680,
 				"line_ending": "Unix"
 			}
 		},
@@ -194,7 +194,7 @@
 			"file": "README.md",
 			"settings":
 			{
-				"buffer_size": 1141,
+				"buffer_size": 1271,
 				"line_ending": "Unix"
 			}
 		}
@@ -319,10 +319,16 @@
 	},
 	"expanded_folders":
 	[
-		"/Users/greg/Sites/udacity/map-project"
+		"/Users/greg/Sites/udacity/map-project",
+		"/Users/greg/Sites/udacity/map-project/dist",
+		"/Users/greg/Sites/udacity/map-project/dist/css",
+		"/Users/greg/Sites/udacity/map-project/dist/js",
+		"/Users/greg/Sites/udacity/map-project/src",
+		"/Users/greg/Sites/udacity/map-project/src/js"
 	],
 	"file_history":
 	[
+		"/Users/greg/Sites/udacity/map-project/src/js/knockoutjs-3.4.0.min.js",
 		"/Users/greg/Sites/udacity/map-project/neighborhood-map.sublime-project",
 		"/Users/greg/Sites/udacity/maps/index.html",
 		"/Users/greg/Sites/udacity/javascript/text-twist/text-twist.sublime-project",
@@ -449,8 +455,7 @@
 		"/Users/greg/Sites/jts/prophets/timber/assets/scss/partials/_mixins.scss",
 		"/Users/greg/Sites/jts/prophets/timber/assets/scss/partials/_footer.scss",
 		"/Users/greg/Sites/jts/prophets/site-wp/config/config.local.php",
-		"/Users/greg/Sites/jts/prophets/timber/assets/scss/component/_type.scss",
-		"/Users/greg/Sites/jts/prophets/timber/views/layout.twig"
+		"/Users/greg/Sites/jts/prophets/timber/assets/scss/component/_type.scss"
 	],
 	"find":
 	{
@@ -681,15 +686,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1884,
+						"buffer_size": 2680,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								349,
-								349
+								738,
+								738
 							]
 						],
 						"settings":
@@ -699,7 +704,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 62.0,
+						"translation.y": 375.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -711,15 +716,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1141,
+						"buffer_size": 1271,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								615,
-								615
+								505,
+								505
 							]
 						],
 						"settings":
@@ -898,9 +903,21 @@
 	"select_project":
 	{
 		"height": 500.0,
-		"last_filter": "udac",
+		"last_filter": "uda",
 		"selected_items":
 		[
+			[
+				"uda",
+				"~/Sites/udacity/udacity.sublime-project"
+			],
+			[
+				"text",
+				"~/Sites/udacity/javascript/text-twist/text-twist.sublime-project"
+			],
+			[
+				"",
+				"~/Sites/udacity/udacity.sublime-project"
+			],
 			[
 				"udac",
 				"~/Sites/udacity/udacity.sublime-project"
@@ -934,10 +951,6 @@
 				"~/Sites/garabedium/garabedium.sublime-project"
 			],
 			[
-				"",
-				"~/Sites/garabedium/garabedium.sublime-project"
-			],
-			[
 				"garabedium",
 				"~/Sites/garabedium/garabedium.sublime-project"
 			],
@@ -948,10 +961,6 @@
 			[
 				"amobikes",
 				"~/Sites/amobikes/amobikes.sublime-project"
-			],
-			[
-				"uda",
-				"~/Sites/udacity/untitled.sublime-workspace"
 			]
 		],
 		"width": 380.0

@@ -2,7 +2,9 @@
 <html>
 <head>
 	<title>Neighborhood Map Project</title>
+
 	<link rel="stylesheet" type="text/css" href="dist/css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="dist/css/skeleton.css">
 	<style>
     html,body{
       height: 100%;
@@ -14,68 +16,22 @@
 	</style>
 </head>
 <body>
-   <div id="map"></div>
-    <script>
-      var map;
-      var ViewModel = {
-        shops:[
-          {title:'Ipsum', content:'<p>Hello world</p>', location: {lat: 52.511, lng: 13.447}},
-          {title:'Lorem', content:'<p>Hello gurl</p>', location: {lat: 52.549, lng: 13.422}},
-          {title:'Solom', content:'<p>Hello pup</p>', location: {lat: 52.497, lng: 13.396}},
-          {title:'Florem', content:'<p>Hello tinha</p>', location: {lat: 52.517, lng: 13.394}},
-          {title:'Deplorem', content:'<p>Marhaba</p>', location: {lat: 52.530, lng: 13.400}}
-        ],
-        markers:[]
-      };
 
-      function initMap() {
+  <header>
+    <h1 data-bind="text: firstName"></h1>
+<!--     <ul id="results" data-bind="foreach: searchResuls">
+        <li>
+            <button data-bind="click: $parent.changeCat, text: name">
+        </li>
+    </ul> -->
+  </header>
+  <section id="map"></section>
 
-          map = new google.maps.Map(document.getElementById('map'), {
-            //center: ViewModel.shops[0].location,
-            //zoom: 15
-          });
-
-          var infowindow = new google.maps.InfoWindow();
-          var bounds = new google.maps.LatLngBounds();
-
-        for (var i = 0; i < ViewModel.shops.length; i++) {
-
-          var data = ViewModel.shops[i],
-              title = data.title,
-              content = data.content,
-              position = data.location;
-
-          var marker = new google.maps.Marker({
-              map: map,
-              title: title,
-              content: content,
-              animation: google.maps.Animation.DROP,
-              position: position
-          });
-
-          // Push marker to blank markers array
-          ViewModel.markers.push(marker);
-
-          // Click event to open infowindows
-          marker.addListener('click', function() {
-            infowindow.setContent(this.title + this.content);
-            infowindow.open(map, this);
-          });
-
-          bounds.extend(ViewModel.markers[i].position);
-
-        }
-          map.fitBounds(bounds);
-          // Set zoom after fitBounds
-          // var listener = google.maps.event.addListener(map, "idle", function () {
-          //     map.setZoom(13);
-          //     google.maps.event.removeListener(listener);
-          // });
-      } // initMap
-
-    </script>
 <script async defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOomDghDBh0XiIpMbixy04-X1aSNnGhkU&callback=initMap" onerror>
+  src="https://mxps.googleapis.com/maps/api/js?key=AIzaSyAOomDghDBh0XiIpMbixy04-X1aSNnGhkU&callback=initApp" onerror="initApp()">
 </script>
+<script src="dist/js/knockoutjs-3.4.0.min.js"></script>
+<script src="src/js/app.js"></script>
+
 </body>
 </html>
