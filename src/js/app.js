@@ -30,13 +30,18 @@ function apiFallback(input){
 }
 
 function ViewModel(){
-  var self = this;
-  self.appName = 'Neighborhood Map';
-  self.someList = ko.observable( Model.shops );
 
-  doSomething = function(formElement) {
-            alert('goddamn')
-        }
+  this.appName = 'Neighborhood Map';
+  this.locations = ko.observableArray(Model.shops);
+  this.searchInput = ko.observable('');
+
+  // self.filterList = ko.pureComputed(function() {
+  //     var all = this.locations(), matchingItems = [];
+  //     for (var i = 0; i < all.length; i++)
+  //         if (all[i].matchingItems())
+  //             matchingItems.push(all[i]);
+  //     return matchingItems;
+  // }, self);
 
 };
 

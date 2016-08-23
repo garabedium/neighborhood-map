@@ -22,11 +22,13 @@
     <div class="container">
       <div class="row">
         <h1 data-bind="text: appName"></h1>
-        <form data-bind="submit: doSomething">
-          <input type="text" name="search" placeholder="Filter">
+        <form>
+          <input type="text" name="search" autocomplete="off"
+            data-bind="textInput: searchInput, valueUpdate: 'keypress'" >
           <button type="submit">Submit</button>
         </form>
-        <ul id="results" data-bind="foreach: someList">
+        <div data-bind="text: searchInput"></div>
+        <ul id="results" data-bind="foreach: locations">
             <li data-bind="text: title"></li>
         </ul>
       </div>
