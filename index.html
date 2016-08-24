@@ -27,7 +27,6 @@
             data-bind="textInput: searchQuery">
           <button type="submit">Submit</button>
         </form>
-        <!-- <div data-bind="text: searchInput"></div> -->
         <ul id="results" data-bind="foreach: search()">
             <li data-bind="text: title"></li>
         </ul>
@@ -36,6 +35,7 @@
 
   </header>
 
+  <input type=button value="Hide Markers" id="hide-markers">
   <section id="map"></section>
 
 <script async defer

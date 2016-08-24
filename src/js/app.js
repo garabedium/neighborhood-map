@@ -23,17 +23,11 @@ function initApp(){
 
 function apiFallback(input){
   if (input === 'gmaps'){
-    console.log('houston, something something');
+    console.log('houston, where is texas?');
   } else {
     console.log('something else')
   }
 }
-
- var places = [
-  {"title" : "apple"},
-  {"title" : "lemon"},
-  {"title" : "orange"}
-];
 
 function ViewModel(){
   var self = this;
@@ -43,6 +37,7 @@ function ViewModel(){
   self.searchQuery = ko.observable('');
 
   self.search = ko.computed(function(){
+
     return ko.utils.arrayFilter(self.locations(), function(loc){
       return loc.title.toLowerCase().indexOf(self.searchQuery().toLowerCase()) >= 0;
     });
@@ -59,6 +54,10 @@ function initMap() {
 
     var infowindow = new google.maps.InfoWindow();
     var bounds = new google.maps.LatLngBounds();
+
+    function clearMarkers() {
+      marker.setMapOnAll(null);
+    };
 
   for (var i = 0; i < Model.shops.length; i++) {
 
@@ -88,6 +87,16 @@ function initMap() {
 
   }
     map.fitBounds(bounds);
+
+        var hideMarkersBtn = document.getElementById('hide-markers');
+
+        hideMarkersBtn.addEventListener('click', function(){
+            //function hideListings() {
+            for (var i = 0; i < Model.markers.length; i++) {
+              Model.markers[i].setMap(null);
+            }
+            //}
+        });
 };
 
 
