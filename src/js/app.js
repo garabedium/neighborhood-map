@@ -33,12 +33,18 @@ function ViewModel(){
   var self = this;
 
   self.appName = ko.observable('Neighborhood Map');
-  self.locations = ko.observableArray(Model.shops);
+  self.shops = ko.observableArray(Model.shops);
+  //self.markers = Model.markers;
   self.searchQuery = ko.observable('');
+  self.clearMarkers = function() {
+          for (var i = 0; i < Model.markers.length; i++) {
+            Model.markers[i].setMap(null);
+          }
+    };
 
   self.search = ko.computed(function(){
-
-    return ko.utils.arrayFilter(self.locations(), function(loc){
+    //self.clearMarkers();
+    return ko.utils.arrayFilter(self.shops(), function(loc){
       return loc.title.toLowerCase().indexOf(self.searchQuery().toLowerCase()) >= 0;
     });
   });
@@ -78,6 +84,7 @@ function initMap() {
     Model.markers.push(marker);
 
     // Click event to open infowindows
+    // Set infowindow content
     marker.addListener('click', function() {
       infowindow.setContent(this.title + this.content);
       infowindow.open(map, this);
@@ -88,15 +95,14 @@ function initMap() {
   }
     map.fitBounds(bounds);
 
-        var hideMarkersBtn = document.getElementById('hide-markers');
+    var hideMarkersBtn = document.getElementById('hide-markers');
 
-        hideMarkersBtn.addEventListener('click', function(){
-            //function hideListings() {
-            for (var i = 0; i < Model.markers.length; i++) {
-              Model.markers[i].setMap(null);
-            }
-            //}
-        });
+    hideMarkersBtn.addEventListener('click', clearMarkers);
+        function clearMarkers() {
+          for (var i = 0; i < Model.markers.length; i++) {
+            Model.markers[i].setMap(null);
+          }
+        };
 };
 
 
