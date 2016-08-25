@@ -10,6 +10,8 @@ var Model = {
     markers:[]
 };
 
+var map, mapOptions;
+
 function initApp(){
   // If gmaps API loads, start our map and apply bindings
   if (typeof google !== 'undefined'){
@@ -52,8 +54,6 @@ function ViewModel(){
 
 function initMap() {
 
-    var map, mapOptions;
-
     mapOptions = { mapTypeControl: false };
     map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
@@ -75,9 +75,7 @@ function initMap() {
         position: position
     });
 
-    // Push marker to blank markers array
     // Add new 'marker' property in shops array with google maps marker object
-    //Model.markers.push(marker);
     Model.shops[i].marker = marker;
 
     // Click event to open infowindows
@@ -93,15 +91,24 @@ function initMap() {
   }
     map.fitBounds(bounds);
 
-    var hideMarkersBtn = document.getElementById('hide-markers');
-    hideMarkersBtn.addEventListener('click', clearMarkers);
+    var hideMarkers = document.getElementById('hide-markers');
+    var showMarkers = document.getElementById('show-markers');
+    hideMarkers.addEventListener('click', clearMarkers);
+    showMarkers.addEventListener('click', addMarkers);
+
     function clearMarkers() {
       for (var i = 0; i < Model.shops.length; i++) {
         Model.shops[i].marker.setMap(null);
       }
     };
 
-};
+    function addMarkers(){
+      for (var i = 0; i < Model.shops.length; i++) {
+        Model.shops[i].marker.setMap(map);
+      }
+    };
+
+}; //initMap
 
 
 
