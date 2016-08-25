@@ -37,17 +37,22 @@ function ViewModel(){
   self.shops = ko.observableArray(Model.shops);
   self.searchQuery = ko.observable('');
   self.clearMarkers = function() {
-          for (var i = 0; i < shops.length; i++) {
-            shop.marker[i].setMap(null);
-          }
+        for (var i = 0; i < self.shops().length; i++) {
+          self.shops().marker.setMap(null);
+        }
     };
 
+// Marker Search
+//
+
   self.search = ko.computed(function(){
-    //self.clearMarkers();
+
     return ko.utils.arrayFilter(self.shops(), function(loc){
-      return loc.title.toLowerCase().indexOf(self.searchQuery().toLowerCase()) >= 0;
+
+      return loc.title.toLowerCase().indexOf( self.searchQuery().toLowerCase() ) >= 0;
 
     });
+
   });
 
 };
@@ -98,13 +103,15 @@ function initMap() {
 
     function clearMarkers() {
       for (var i = 0; i < Model.shops.length; i++) {
-        Model.shops[i].marker.setMap(null);
+        //Model.shops[i].marker.setMap(null);
+        Model.shops[i].marker.setVisible(false);
       }
     };
 
     function addMarkers(){
       for (var i = 0; i < Model.shops.length; i++) {
-        Model.shops[i].marker.setMap(map);
+        //Model.shops[i].marker.setMap(map);
+        Model.shops[i].marker.setVisible(true);
       }
     };
 
