@@ -36,16 +36,16 @@ function ViewModel(){
   self.appName = ko.observable('Neighborhood Map');
   self.shops = ko.observableArray(Model.shops);
   self.searchQuery = ko.observable('');
-  self.clearMarkers = function() {
-        for (var i = 0; i < self.shops().length; i++) {
-          self.shops().marker.setMap(null);
-        }
-    };
+  // self.clearMarkers = function() {
+  //       for (var i = 0; i < self.shops().length; i++) {
+  //         self.shops().marker.setMap(null);
+  //       }
+  //   };
 
 // Marker Search
 //
 
-  self.search = ko.computed(function(){
+  self.search = ko.pureComputed(function(){
 
     return ko.utils.arrayFilter(self.shops(), function(loc){
 
