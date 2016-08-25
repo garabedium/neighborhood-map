@@ -23,9 +23,9 @@
       <div class="row">
         <h1 data-bind="text: appName"></h1>
         <form>
-          <input type="search" name="search" autocomplete="off"
+          <input type="search" name="search" autocomplete="off" placeholder="Search"
             data-bind="textInput: searchQuery">
-          <button type="submit">Submit</button>
+          <!-- <button type="submit">Submit</button> -->
         </form>
         <ul id="results" data-bind="foreach: search()">
             <li data-bind="text: title"></li>

@@ -6,7 +6,6 @@ var Model = {
       {title:'Solom', content:'<p>Hello pup</p>', location: {lat: 52.497, lng: 13.396}},
       {title:'Florem', content:'<p>Hello tinha</p>', location: {lat: 52.517, lng: 13.394}},
       {title:'Deplorem', content:'<p>Marhaba</p>', location: {lat: 52.530, lng: 13.400}}
-      //{title:'Testem', content:'<p>Testor</p>', location: {lat: 52.30, lng: 13.388}}
     ],
     markers:[]
 };
@@ -34,11 +33,10 @@ function ViewModel(){
 
   self.appName = ko.observable('Neighborhood Map');
   self.shops = ko.observableArray(Model.shops);
-  //self.markers = Model.markers;
   self.searchQuery = ko.observable('');
   self.clearMarkers = function() {
-          for (var i = 0; i < Model.markers.length; i++) {
-            Model.markers[i].setMap(null);
+          for (var i = 0; i < shops.length; i++) {
+            shop.marker[i].setMap(null);
           }
     };
 
@@ -46,6 +44,7 @@ function ViewModel(){
     //self.clearMarkers();
     return ko.utils.arrayFilter(self.shops(), function(loc){
       return loc.title.toLowerCase().indexOf(self.searchQuery().toLowerCase()) >= 0;
+
     });
   });
 
@@ -60,10 +59,6 @@ function initMap() {
 
     var infowindow = new google.maps.InfoWindow();
     var bounds = new google.maps.LatLngBounds();
-
-    function clearMarkers() {
-      marker.setMapOnAll(null);
-    };
 
   for (var i = 0; i < Model.shops.length; i++) {
 
@@ -81,7 +76,9 @@ function initMap() {
     });
 
     // Push marker to blank markers array
-    Model.markers.push(marker);
+    // Add new 'marker' property in shops array with google maps marker object
+    //Model.markers.push(marker);
+    Model.shops[i].marker = marker;
 
     // Click event to open infowindows
     // Set infowindow content
@@ -90,19 +87,20 @@ function initMap() {
       infowindow.open(map, this);
     });
 
-    bounds.extend(Model.markers[i].position);
+    //bounds.extend(Model.markers[i].position);
+    bounds.extend(Model.shops[i].marker.position);
 
   }
     map.fitBounds(bounds);
 
     var hideMarkersBtn = document.getElementById('hide-markers');
-
     hideMarkersBtn.addEventListener('click', clearMarkers);
-        function clearMarkers() {
-          for (var i = 0; i < Model.markers.length; i++) {
-            Model.markers[i].setMap(null);
-          }
-        };
+    function clearMarkers() {
+      for (var i = 0; i < Model.shops.length; i++) {
+        Model.shops[i].marker.setMap(null);
+      }
+    };
+
 };
 
 

@@ -8,6 +8,7 @@ Go online to....
 - [window.onerror](http://stackoverflow.com/questions/3677783/is-it-possible-to-catch-exceptions-thrown-in-a-javascript-async-callback)
 - [Async Fallback](https://discussions.udacity.com/t/handling-google-maps-in-async-and-fallback/34282)
 - [setZoom after fitbounds](http://stackoverflow.com/questions/15719951/google-maps-api-v3-auto-center-map-with-multiple-markers)
+- [Add Property to Array](http://stackoverflow.com/questions/9952126/add-property-to-javascript-array)
 
 ## APIs
 []
