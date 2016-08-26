@@ -27,16 +27,18 @@
             data-bind="textInput: searchQuery">
           <!-- <button type="submit">Submit</button> -->
         </form>
-        <ul id="results" data-bind="foreach: search()">
-            <li data-bind="text: title"></li>
+        <ul id="results" data-bind="foreach: shops">
+            <li>
+              <button data-bind="text: title, click: $parent.setInfoWindow" type="button"></button>
+            </li>
         </ul>
       </div>
     </div>
 
   </header>
 
-  <input type=button value="Hide Markers" id="hide-markers">
-  <input type=button value="Show Some Markers" id="show-markers">
+<!--   <input type=button value="Hide Markers" id="hide-markers">
+  <input type=button value="Show Some Markers" id="show-markers"> -->
 
   <section id="map"></section>
 

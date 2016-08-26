@@ -10,6 +10,7 @@ var Model = {
     markers:[]
 };
 
+// Global Variables
 var map, mapOptions;
 
 function initApp(){
@@ -36,6 +37,12 @@ function ViewModel(){
   self.appName = ko.observable('Neighborhood Map');
   self.shops = ko.observableArray(Model.shops);
   self.searchQuery = ko.observable('');
+  self.setInfoWindow = function(){
+    var infowindow = new google.maps.InfoWindow();
+      infowindow.setContent(this.title + this.content);
+      infowindow.open(map, this.marker);
+  };
+
   // self.clearMarkers = function() {
   //       for (var i = 0; i < self.shops().length; i++) {
   //         self.shops().marker.setMap(null);
@@ -47,11 +54,11 @@ function ViewModel(){
 
   self.search = ko.pureComputed(function(){
 
-    return ko.utils.arrayFilter(self.shops(), function(loc){
-
-      return loc.title.toLowerCase().indexOf( self.searchQuery().toLowerCase() ) >= 0;
-
-    });
+    // not a fan of this solution even though it works:
+    // return ko.utils.arrayFilter(self.shops(), function(loc){
+    //   return loc.title.toLowerCase().indexOf( self.searchQuery().toLowerCase() ) >= 0;
+    //   return alert('something');
+    // });
 
   });
 
@@ -90,33 +97,35 @@ function initMap() {
       infowindow.open(map, this);
     });
 
-    //bounds.extend(Model.markers[i].position);
     bounds.extend(Model.shops[i].marker.position);
 
   }
     map.fitBounds(bounds);
 
-    var hideMarkers = document.getElementById('hide-markers');
-    var showMarkers = document.getElementById('show-markers');
-    hideMarkers.addEventListener('click', clearMarkers);
-    showMarkers.addEventListener('click', addMarkers);
+    // var hideMarkers = document.getElementById('hide-markers');
+    // var showMarkers = document.getElementById('show-markers');
+    // hideMarkers.addEventListener('click', clearMarkers);
+    // showMarkers.addEventListener('click', addMarkers);
 
-    function clearMarkers() {
-      for (var i = 0; i < Model.shops.length; i++) {
-        //Model.shops[i].marker.setMap(null);
-        Model.shops[i].marker.setVisible(false);
-      }
-    };
+    // function clearMarkers() {
+    //   for (var i = 0; i < Model.shops.length; i++) {
+    //     //Model.shops[i].marker.setMap(null);
+    //     Model.shops[i].marker.setVisible(false);
+    //   }
+    // };
 
-    function addMarkers(){
-      for (var i = 0; i < Model.shops.length; i++) {
-        //Model.shops[i].marker.setMap(map);
-        Model.shops[i].marker.setVisible(true);
-      }
-    };
+    // function addMarkers(){
+    //   for (var i = 0; i < Model.shops.length; i++) {
+    //     //Model.shops[i].marker.setMap(map);
+    //     Model.shops[i].marker.setVisible(true);
+    //   }
+    // };
 
 }; //initMap
 
+// Open map infowindow when list item is clicked
+// Marker already exists in the shops array
+// Set event bind on link to build infowindow from list view
 
 
 
