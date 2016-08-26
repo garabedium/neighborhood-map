@@ -38,9 +38,8 @@ function ViewModel(){
   self.shops = ko.observableArray(Model.shops);
   self.searchQuery = ko.observable('');
   self.setInfoWindow = function(){
-    var infowindow = new google.maps.InfoWindow();
-      infowindow.setContent(this.title + this.content);
-      infowindow.open(map, this.marker);
+      this.infowindow.setContent(this.title + this.content);
+      this.infowindow.open(map, this.marker);
   };
 
   // self.clearMarkers = function() {
@@ -89,6 +88,7 @@ function initMap() {
 
     // Add new 'marker' property in shops array with google maps marker object
     Model.shops[i].marker = marker;
+    Model.shops[i].infowindow = infowindow;
 
     // Click event to open infowindows
     // Set infowindow content
