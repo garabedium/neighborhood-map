@@ -6,8 +6,8 @@ var Model = {
       {title:'Solom', content:'<p>Hello pup</p>', location: {lat: 52.497, lng: 13.396}},
       {title:'Florem', content:'<p>Hello tinha</p>', location: {lat: 52.517, lng: 13.394}},
       {title:'Deplorem', content:'<p>Marhaba</p>', location: {lat: 52.530, lng: 13.400}}
-    ],
-    markers:[]
+    ]//,
+    //markers:[]
 };
 
 // Global Variables
@@ -42,30 +42,31 @@ function ViewModel(){
       this.infowindow.open(map, this.marker);
   };
 
-  // self.clearMarkers = function() {
-  //       for (var i = 0; i < self.shops().length; i++) {
-  //         self.shops().marker.setMap(null);
+  // self.search = function(){
+  //   var searchVal = self.searchQuery().toLowerCase();
+  //     Model.shops.forEach(function(item){
+  //       item.marker.setVisible(false);
+  //       if (item.title.toLowerCase().indexOf(searchVal) >= 0){
+  //         self.shops.push(item);
   //       }
-  //   };
+  //     });
+  //};
 
-// Marker Search
-//
+  self.search = ko.pureComputed(function(){
 
-self.search = function(){
-  if (self.searchQuery().length > 5){
-    alert(self.searchQuery());
-  }
-};
+    return ko.utils.arrayFilter(self.shops(), function(item){
 
-  // self.search = ko.pureComputed(function(){
-  //     var yourSearch = self.searchQuery();
-  //         console.log(yourSearch);
-  //   // not a fan of this solution even though it works:
-  //   // return ko.utils.arrayFilter(self.shops(), function(loc){
-  //   //   return loc.title.toLowerCase().indexOf( self.searchQuery().toLowerCase() ) >= 0;
-  //   //   return alert('something');
-  //   // });
-  // });
+      // Check if searchQuery matches shop array title
+      var match = item.title.toLowerCase().indexOf(self.searchQuery().toLowerCase()) >= 0;
+
+      // Show marker
+      item.marker.setVisible(match);
+
+      return match;
+
+    });
+
+  });
 
 };
 
@@ -109,31 +110,7 @@ function initMap() {
   }
     map.fitBounds(bounds);
 
-    // var hideMarkers = document.getElementById('hide-markers');
-    // var showMarkers = document.getElementById('show-markers');
-    // hideMarkers.addEventListener('click', clearMarkers);
-    // showMarkers.addEventListener('click', addMarkers);
-
-    // function clearMarkers() {
-    //   for (var i = 0; i < Model.shops.length; i++) {
-    //     //Model.shops[i].marker.setMap(null);
-    //     Model.shops[i].marker.setVisible(false);
-    //   }
-    // };
-
-    // function addMarkers(){
-    //   for (var i = 0; i < Model.shops.length; i++) {
-    //     //Model.shops[i].marker.setMap(map);
-    //     Model.shops[i].marker.setVisible(true);
-    //   }
-    // };
-
 }; //initMap
-
-// Open map infowindow when list item is clicked
-// Marker already exists in the shops array
-// Set event bind on link to build infowindow from list view
-
 
 
 

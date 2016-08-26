@@ -10,6 +10,7 @@ Go online to....
 - [setZoom after fitbounds](http://stackoverflow.com/questions/15719951/google-maps-api-v3-auto-center-map-with-multiple-markers)
 - [Add Property to Array](http://stackoverflow.com/questions/9952126/add-property-to-javascript-array)
 - [Array Search](http://www.w3schools.com/jsref/jsref_indexof_array.asp)
+- [Marker Search](https://discussions.udacity.com/t/no-idea-how-to-implement-the-search-function/182184/12)
 
 ## APIs
 [] - Itau / Bradesco Bikes? - Show Itau / Bradesco bike share on map

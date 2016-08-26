@@ -24,9 +24,9 @@
         <h1 data-bind="text: appName"></h1>
         <form>
           <input type="search" name="search" autocomplete="off" placeholder="Search"
-            data-bind="textInput: searchQuery, event:{keyup: search}">
+            data-bind="textInput: searchQuery"> <!-- , event:{keyup: search }-->
         </form>
-        <ul id="results" data-bind="foreach: shops">
+        <ul id="results" data-bind="foreach: search">
             <li>
               <button data-bind="text: title, click: $parent.setInfoWindow" type="button"></button>
             </li>
