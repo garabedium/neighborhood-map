@@ -9,9 +9,12 @@ Go online to....
 - [Async Fallback](https://discussions.udacity.com/t/handling-google-maps-in-async-and-fallback/34282)
 - [setZoom after fitbounds](http://stackoverflow.com/questions/15719951/google-maps-api-v3-auto-center-map-with-multiple-markers)
 - [Add Property to Array](http://stackoverflow.com/questions/9952126/add-property-to-javascript-array)
+- [Array Search](http://www.w3schools.com/jsref/jsref_indexof_array.asp)
 
 ## APIs
-[]
+[] - Itau / Bradesco Bikes? - Show Itau / Bradesco bike share on map
+[] - Bike parking (any shopping mall - foursquare?)
+
 
 ### Requirements
 [X] Add full-screen map using Google Maps API, call API only once
@@ -22,7 +25,7 @@ Go online to....
 [X] Implement a list view of locations
 [] Make a filter option that uses an input field to filter both list and map view.
 [X] Open infowindow when map marker is itself is clicked
-[] Open map infowindow when list item is clicked
+[X] Open map infowindow when list item is clicked
 [] Add third party API info when a map marker or list item is clicked
 [] Interface should be intuitive
 

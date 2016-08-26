@@ -51,15 +51,21 @@ function ViewModel(){
 // Marker Search
 //
 
-  self.search = ko.pureComputed(function(){
+self.search = function(){
+  if (self.searchQuery().length > 5){
+    alert(self.searchQuery());
+  }
+};
 
-    // not a fan of this solution even though it works:
-    // return ko.utils.arrayFilter(self.shops(), function(loc){
-    //   return loc.title.toLowerCase().indexOf( self.searchQuery().toLowerCase() ) >= 0;
-    //   return alert('something');
-    // });
-
-  });
+  // self.search = ko.pureComputed(function(){
+  //     var yourSearch = self.searchQuery();
+  //         console.log(yourSearch);
+  //   // not a fan of this solution even though it works:
+  //   // return ko.utils.arrayFilter(self.shops(), function(loc){
+  //   //   return loc.title.toLowerCase().indexOf( self.searchQuery().toLowerCase() ) >= 0;
+  //   //   return alert('something');
+  //   // });
+  // });
 
 };
 
@@ -86,7 +92,8 @@ function initMap() {
         position: position
     });
 
-    // Add new 'marker' property in shops array with google maps marker object
+    // Add marker and infowindow properties to shops array
+    // For easy access to marker and infowindow outside of initMap()
     Model.shops[i].marker = marker;
     Model.shops[i].infowindow = infowindow;
 
