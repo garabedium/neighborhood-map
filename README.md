@@ -20,13 +20,13 @@ Go online to....
 ### Requirements
 [X] Add full-screen map using Google Maps API, call API only once
 [X] Handle error messages gracefully
-[] Use Knockout for: list, filter, any information on page subject to change
-[] Load APIs asyonchronously
+[X] Use Knockout for: list, filter, any information on page subject to change
 [X] Display at least 5 locations of interest on page load
 [X] Implement a list view of locations
-[] Make a filter option that uses an input field to filter both list and map view.
+[X] Make a filter option that uses an input field to filter both list and map view.
 [X] Open infowindow when map marker is itself is clicked
 [X] Open map infowindow when list item is clicked
+[] Load APIs asyonchronously
 [] Add third party API info when a map marker or list item is clicked
 [] Interface should be intuitive
 
@@ -35,3 +35,4 @@ Go online to....
 - Filter shops by: neighborhood? name?
 - Show images from streetview
 - Use 3rd party API? - Foursquare?
+- Reviews via foursquare: https://developer.foursquare.com/
