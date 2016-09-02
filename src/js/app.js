@@ -6,13 +6,14 @@ var Model = {
     {title:'Avanti Bike', foursquare_id: '4e468a8762e148603b732c4a', location: {lat: -23.5999037, lng: -46.6667808}},
     {title:'Bike Tech Jardins', foursquare_id: '4bc619776c26b713e74cecf3', location: {lat: -23.5613691, lng: -46.6690169}},
     {title:'Pedal Urbano', foursquare_id: '4ccb248797d0224bdf6e57b8', location: {lat: -23.5477529, lng: -46.688361}},
-    {title:'Indy Bike Paraiso / Ciclo Bianchini', foursquare_id: '4c4b3fec959220a176194e0f', location: {lat: -23.577449, lng: -46.642862}},
+    {title:'Ciclo Bianchini', foursquare_id: '4c4b3fec959220a176194e0f', location: {lat: -23.577449, lng: -46.642862}},
     {title:'Las Magrelas', foursquare_id: '55973b17498ec0e201f6c7ec', location: {lat: -23.5619013, lng: -46.6806354}},
   ]
 };
 
 // Global Variables
-var map, mapOptions;
+var map,
+    mapOptions;
 
 function initApp(){
   // If gmaps API loads, start our map and apply bindings
@@ -39,21 +40,13 @@ function ViewModel(){
   self.appName = ko.observable('Neighborhood Map');
   self.shops = ko.observableArray(Model.shops);
   self.searchQuery = ko.observable('');
+
   self.setInfoWindow = function(){
       //this.infowindow.setContent(this.title + this.content);
+
       this.infowindow.setContent(this.title);
       this.infowindow.open(map, this.marker);
   };
-
-  // self.search = function(){
-  //   var searchVal = self.searchQuery().toLowerCase();
-  //     Model.shops.forEach(function(item){
-  //       item.marker.setVisible(false);
-  //       if (item.title.toLowerCase().indexOf(searchVal) >= 0){
-  //         self.shops.push(item);
-  //       }
-  //     });
-  //};
 
   self.search = ko.pureComputed(function(){
     return ko.utils.arrayFilter(self.shops(), function(item){
@@ -83,6 +76,7 @@ function initMap() {
 
     var data =  Model.shops[i],
         title = data.title,
+        foursquareId = data.foursquare_id,
         //content = data.content,
         position = data.location;
 
@@ -94,10 +88,12 @@ function initMap() {
         position: position
     });
 
-    // Add marker and infowindow properties to shops array
-    // For easy access to marker and infowindow outside of initMap()
+    // Add properties to the shop objects: marker, infowindow, ajax calls etc.
     Model.shops[i].marker = marker;
     Model.shops[i].infowindow = infowindow;
+    Model.shops[i].review = '';
+    Model.shops[i].ajax = new ajaxCall(foursquareId,i);
+    Model.shops[i].ajaxResponse = {};
 
     // Click event to open infowindows
     // Set infowindow content
@@ -115,47 +111,43 @@ function initMap() {
 }; //initMap
 
 
-function shopReviews(){
-  // Call foursquare api and push review data to Shops array as 'review' property
+function ajaxCall(fsquare_id,index){
 
-  //https://api.foursquare.com/v2/venues/search?client_id=UAFFBB0O2TLTR0OFPRTCUIVPIWOQN14LCJLAQQUUNGQQYFR3&client_secret=XAZIFQIDGV5SIFNSLJVEPRHOPRO3WNCI0GUNXLZAIDPOSIS1&
-  //v=20130815&ll=-23.5619013,-46.6806354&query=Las Magrelas
-  //   Client id
-  // UAFFBB0O2TLTR0OFPRTCUIVPIWOQN14LCJLAQQUUNGQQYFR3
-  // Client secret
-  // XAZIFQIDGV5SIFNSLJVEPRHOPRO3WNCI0GUNXLZAIDPOSIS1
+  // Run ajax request only if a foursquare id exists for the shop
+  if (fsquare_id !== ''){
 
-  var xhr = new XMLHttpRequest();
+    var xhr = new XMLHttpRequest();
 
-  var apiBase = 'https://api.foursquare.com/v2/venues/search?',
-      apiClientId = '&client_id=' + 'UAFFBB0O2TLTR0OFPRTCUIVPIWOQN14LCJLAQQUUNGQQYFR3',
-      apiClientSecret = '&client_secret=' + 'XAZIFQIDGV5SIFNSLJVEPRHOPRO3WNCI0GUNXLZAIDPOSIS1',
-      apiLatLng = '&ll=' + '-23.5619013,-46.6806354',
-      apiVersion = '&v=' + 20130815,
-      apiQuery = '&query=' + 'Las Magrelas',
-      //apiVenueId = ''+ someVar +'',
-      //apiParameters = '/hours',
-      apiLimit = '&limit=' + 1;
+    var apiBase = 'https://api.foursquare.com/v2/venues/',
+        apiClientId = '&client_id=' + 'UAFFBB0O2TLTR0OFPRTCUIVPIWOQN14LCJLAQQUUNGQQYFR3',
+        apiClientSecret = '&client_secret=' + 'XAZIFQIDGV5SIFNSLJVEPRHOPRO3WNCI0GUNXLZAIDPOSIS1',
+        apiVersion = '&v=' + 20130815,
+        apiVenueId = ''+ fsquare_id + '/?' + '',
+        apiCall = ''+ apiBase + apiVenueId + apiClientId + apiClientSecret + apiVersion +'';
 
-  xhr.open('GET', ''+ apiBase + apiClientId + apiClientSecret + apiVersion + apiLatLng + apiQuery + apiLimit +'');
-  xhr.onload = function() {
-      if (xhr.status === 200) {
-          var data = JSON.parse(xhr.responseText);
-              data = data.response.venues;
-              console.log(data);
-          data.forEach(function(item) {
-            name = item.name;
-            site = item.url;
-            hours = item.hours;
-            console.log(name + " - " + site + " - " + hours);
-          });
+    xhr.open('GET', apiCall);
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            var data = JSON.parse(xhr.responseText);
+                data = data.response.venue;
+                //console.log(data);
 
-      }
-      else {
-          alert('Request failed. Returned status of ' + xhr.status);
-      }
-  };
-  xhr.send();
+              name = data.name;
+              //tips = data.tips.groups[items].text;
 
-}; shopReviews();
+              Model.shops[index].ajaxResponse = data;
+        }
+        else {
+            alert('Request failed. Returned status of ' + xhr.status);
+        }
+    };
+    xhr.send();
+
+  } else {
+    // do nothing
+  }
+
+};
+// ex call: https://api.foursquare.com/v2/venues/55973b17498ec0e201f6c7ec/?&client_id=UAFFBB0O2TLTR0OFPRTCUIVPIWOQN14LCJLAQQUUNGQQYFR3&client_secret=XAZIFQIDGV5SIFNSLJVEPRHOPRO3WNCI0GUNXLZAIDPOSIS1&v=20130815
+// tips: data.tips.groups
 
