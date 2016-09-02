@@ -11,11 +11,12 @@ Go online to....
 - [Add Property to Array](http://stackoverflow.com/questions/9952126/add-property-to-javascript-array)
 - [Array Search](http://www.w3schools.com/jsref/jsref_indexof_array.asp)
 - [Marker Search](https://discussions.udacity.com/t/no-idea-how-to-implement-the-search-function/182184/12)
+- [Foursquare API](https://developer.foursquare.com/docs/venues/search)
 
 ## APIs
 [] - Itau / Bradesco Bikes? - Show Itau / Bradesco bike share on map
 [] - Bike parking (any shopping mall - foursquare?)
-
+[]
 
 ### Requirements
 [X] Add full-screen map using Google Maps API, call API only once
@@ -36,3 +37,8 @@ Go online to....
 - Show images from streetview
 - Use 3rd party API? - Foursquare?
 - Reviews via foursquare: https://developer.foursquare.com/
+- https://developer.foursquare.com/docs/explore#req=venues/40a55d80f964a52020f31ee3/hours
+https://api.foursquare.com/v2/venues/55973b17498ec0e201f6c7ec/hours?client_id=UAFFBB0O2TLTR0OFPRTCUIVPIWOQN14LCJLAQQUUNGQQYFR3&client_secret=XAZIFQIDGV5SIFNSLJVEPRHOPRO3WNCI0GUNXLZAIDPOSIS1&v=20130815&ll=-23.5619013,-46.6806354&query=Las%20Magrelas
+
+
+

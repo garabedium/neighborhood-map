@@ -1,18 +1,14 @@
 
 var Model = {
-    shops:[
-      // {title:'Ipsum', content:'<p>Hello world</p>', location: {lat: 52.511, lng: 13.447}},
-      // {title:'Lorem', content:'<p>Hello gurl</p>', location: {lat: 52.549, lng: 13.422}},
-      // {title:'Solom', content:'<p>Hello pup</p>', location: {lat: 52.497, lng: 13.396}},
-      // {title:'Florem', content:'<p>Hello tinha</p>', location: {lat: 52.517, lng: 13.394}},
-      // {title:'Deplorem', content:'<p>Marhaba</p>', location: {lat: 52.530, lng: 13.400}}
-      {title:'Vela Bikes', location: {lat: -23.5601576, lng: -46.6821728}},
-      {title:'Avanti Bike', location: {lat: -23.5999037, lng: -46.6667808}},
-      {title:'Bike Tech Jardins', location: {lat: -23.5613691, lng: -46.6690169}},
-      {title:'Pedal Urbano', location: {lat: -23.5477529, lng: -46.688361}},
-      {title:'Indy Bike Paraiso', location: {lat: -23.577449, lng: -46.642862}},
-      {title:'Las Magrelas', location: {lat: -23.5619013, lng: -46.6806354}}
-    ]
+  shops:[
+    {title:'Bike House', foursquare_id: '55ce7fa6498eba4dad0a3907', location: {lat: -23.5630337, lng: -46.6908191}},
+    {title:'Vela Bikes', foursquare_id: '', location: {lat: -23.5601576, lng: -46.6821728}},
+    {title:'Avanti Bike', foursquare_id: '4e468a8762e148603b732c4a', location: {lat: -23.5999037, lng: -46.6667808}},
+    {title:'Bike Tech Jardins', foursquare_id: '4bc619776c26b713e74cecf3', location: {lat: -23.5613691, lng: -46.6690169}},
+    {title:'Pedal Urbano', foursquare_id: '4ccb248797d0224bdf6e57b8', location: {lat: -23.5477529, lng: -46.688361}},
+    {title:'Indy Bike Paraiso / Ciclo Bianchini', foursquare_id: '4c4b3fec959220a176194e0f', location: {lat: -23.577449, lng: -46.642862}},
+    {title:'Las Magrelas', foursquare_id: '55973b17498ec0e201f6c7ec', location: {lat: -23.5619013, lng: -46.6806354}},
+  ]
 };
 
 // Global Variables
@@ -136,20 +132,24 @@ function shopReviews(){
       apiClientSecret = '&client_secret=' + 'XAZIFQIDGV5SIFNSLJVEPRHOPRO3WNCI0GUNXLZAIDPOSIS1',
       apiLatLng = '&ll=' + '-23.5619013,-46.6806354',
       apiVersion = '&v=' + 20130815,
-      apiQuery = '&query=' + 'Las Magrelas';
+      apiQuery = '&query=' + 'Las Magrelas',
+      //apiVenueId = ''+ someVar +'',
+      //apiParameters = '/hours',
+      apiLimit = '&limit=' + 1;
 
-  xhr.open('GET', ''+ apiBase + apiClientId + apiClientSecret + apiVersion + apiLatLng + apiQuery +'');
+  xhr.open('GET', ''+ apiBase + apiClientId + apiClientSecret + apiVersion + apiLatLng + apiQuery + apiLimit +'');
   xhr.onload = function() {
       if (xhr.status === 200) {
           var data = JSON.parse(xhr.responseText);
-              //data = data.response;
+              data = data.response.venues;
               console.log(data);
-        // data.forEach(function(item) {
-        //   name = item.name;
-        //   console.log(name);
-        //   //control.validateWords(item);
-        // });
-        //control.selectWord();
+          data.forEach(function(item) {
+            name = item.name;
+            site = item.url;
+            hours = item.hours;
+            console.log(name + " - " + site + " - " + hours);
+          });
+
       }
       else {
           alert('Request failed. Returned status of ' + xhr.status);
