@@ -28,7 +28,7 @@ function initApp(){
 function apiFallback(input){
   if (input === 'gmaps'){
     console.log('houston, where is texas?');
-  } else {
+  } else if (input === 'foursquare'){
     console.log('something else')
   }
 }
@@ -41,10 +41,10 @@ function ViewModel(){
   self.shops = ko.observableArray(Model.shops);
   self.searchQuery = ko.observable('');
 
+  // Show infoWindow on list view click
   self.setInfoWindow = function(){
-      //this.infowindow.setContent(this.title + this.content);
-
       this.infowindow.setContent(this.title);
+      //this.infowindow.setContent(self.shops.foursquare_data.location.address);
       this.infowindow.open(map, this.marker);
   };
 
@@ -77,7 +77,6 @@ function initMap() {
     var data =  Model.shops[i],
         title = data.title,
         foursquareId = data.foursquare_id,
-        //content = data.content,
         position = data.location;
 
     var marker = new google.maps.Marker({
@@ -88,66 +87,64 @@ function initMap() {
         position: position
     });
 
-    // Add properties to the shop objects: marker, infowindow, ajax calls etc.
-    Model.shops[i].marker = marker;
-    Model.shops[i].infowindow = infowindow;
-    Model.shops[i].review = '';
-    Model.shops[i].ajax = new ajaxCall(foursquareId,i);
-    Model.shops[i].ajaxResponse = {};
+        // Add properties to the model: marker, infowindow, ajax calls etc.
+        data.marker = marker;
+        data.infowindow = infowindow;
+        data.ajax = new ajaxCall(foursquareId,i);
 
-    // Click event to open infowindows
-    // Set infowindow content
+    // Click event to open infowindows and content
     marker.addListener('click', function() {
-      //infowindow.setContent(this.title + this.content);
-      infowindow.setContent(this.title);
+      infowindow.setContent(this.title + Model.shops[0].foursquare_data.name);
       infowindow.open(map, this);
     });
 
-    bounds.extend(Model.shops[i].marker.position);
+    bounds.extend(data.marker.position);
 
   }
     map.fitBounds(bounds);
 
 }; //initMap
 
+function ajaxCall(foursquareId,index){
 
-function ajaxCall(fsquare_id,index){
+    // Run ajax request only if a foursquare_id exists for the shop
+    if (foursquareId !== ''){
 
-  // Run ajax request only if a foursquare id exists for the shop
-  if (fsquare_id !== ''){
+      var xhr = new XMLHttpRequest();
 
-    var xhr = new XMLHttpRequest();
+      var apiBase = 'https://api.foursquare.com/v2/venues/',
+          apiClientId = '&client_id=' + 'UAFFBB0O2TLTR0OFPRTCUIVPIWOQN14LCJLAQQUUNGQQYFR3',
+          apiClientSecret = '&client_secret=' + 'XAZIFQIDGV5SIFNSLJVEPRHOPRO3WNCI0GUNXLZAIDPOSIS1',
+          apiVersion = '&v=' + 20130815,
+          apiVenueId = ''+ foursquareId + '/?' + '',
+          apiCall = ''+ apiBase + apiVenueId + apiClientId + apiClientSecret + apiVersion +'';
 
-    var apiBase = 'https://api.foursquare.com/v2/venues/',
-        apiClientId = '&client_id=' + 'UAFFBB0O2TLTR0OFPRTCUIVPIWOQN14LCJLAQQUUNGQQYFR3',
-        apiClientSecret = '&client_secret=' + 'XAZIFQIDGV5SIFNSLJVEPRHOPRO3WNCI0GUNXLZAIDPOSIS1',
-        apiVersion = '&v=' + 20130815,
-        apiVenueId = ''+ fsquare_id + '/?' + '',
-        apiCall = ''+ apiBase + apiVenueId + apiClientId + apiClientSecret + apiVersion +'';
+      xhr.open('GET', apiCall);
+      xhr.onload = function() {
+          if (xhr.status === 200) {
+              var data = JSON.parse(xhr.responseText);
+                  data = data.response.venue;
 
-    xhr.open('GET', apiCall);
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            var data = JSON.parse(xhr.responseText);
-                data = data.response.venue;
-                //console.log(data);
+                Model.shops[index].foursquare_data = data;
+          }
+          else {
+              //alert('Request failed. Returned status of ' + xhr.status);
+              apiFallback('foursquare');
+          }
+      };
+      xhr.send();
 
-              name = data.name;
-              //tips = data.tips.groups[items].text;
-
-              Model.shops[index].ajaxResponse = data;
-        }
-        else {
-            alert('Request failed. Returned status of ' + xhr.status);
-        }
-    };
-    xhr.send();
-
-  } else {
-    // do nothing
-  }
+    } else {
+      // do nothing
+    }
 
 };
+
+
+
 // ex call: https://api.foursquare.com/v2/venues/55973b17498ec0e201f6c7ec/?&client_id=UAFFBB0O2TLTR0OFPRTCUIVPIWOQN14LCJLAQQUUNGQQYFR3&client_secret=XAZIFQIDGV5SIFNSLJVEPRHOPRO3WNCI0GUNXLZAIDPOSIS1&v=20130815
-// tips: data.tips.groups
+// tips: Model.shops[6].ajaxResponse.tips.groups[0].items[i].text
+// hours: data.hours
+// Get address and hours
+// http://jsonviewer.stack.hu/#api.foursquare.com/v2/venues/55973b17498ec0e201f6c7ec/?&client_id=UAFFBB0O2TLTR0OFPRTCUIVPIWOQN14LCJLAQQUUNGQQYFR3&client_secret=XAZIFQIDGV5SIFNSLJVEPRHOPRO3WNCI0GUNXLZAIDPOSIS1&v=20130815
 
