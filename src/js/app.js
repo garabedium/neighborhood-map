@@ -6,7 +6,7 @@ var Model = {
     {title:'Avanti Bike', foursquare_id: '4e468a8762e148603b732c4a', location: {lat: -23.5999037, lng: -46.6667808}},
     {title:'Bike Tech Jardins', foursquare_id: '4bc619776c26b713e74cecf3', location: {lat: -23.5613691, lng: -46.6690169}},
     {title:'Pedal Urbano', foursquare_id: '4ccb248797d0224bdf6e57b8', location: {lat: -23.5477529, lng: -46.688361}},
-    {title:'Ciclo Bianchini', foursquare_id: '4c4b3fec959220a176194e0f', location: {lat: -23.577449, lng: -46.642862}},
+    {title:'Indy Bike Paraiso', foursquare_id: '4c4b3fec959220a176194e0f', location: {lat: -23.577449, lng: -46.642862}},
     {title:'Las Magrelas', foursquare_id: '55973b17498ec0e201f6c7ec', location: {lat: -23.5619013, lng: -46.6806354}},
   ]
 };
@@ -37,7 +37,7 @@ function ViewModel(){
 
   var self = this;
 
-  self.appName = ko.observable('Neighborhood Map');
+  self.appName = ko.observable('SP Bike Shopper');
   self.shops = ko.observableArray(Model.shops);
   self.searchQuery = ko.observable('');
 
@@ -69,8 +69,9 @@ function initMap() {
     mapOptions = { mapTypeControl: false };
     map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-    var infowindow = new google.maps.InfoWindow();
-    var bounds = new google.maps.LatLngBounds();
+    var infowindow = new google.maps.InfoWindow(),
+        bounds = new google.maps.LatLngBounds(),
+        geocoder = new google.maps.Geocoder();
 
   for (var i = 0; i < Model.shops.length; i++) {
 
@@ -79,6 +80,20 @@ function initMap() {
         foursquareId = data.foursquare_id,
         position = data.location;
 
+        // GeoCode expirments
+          var latlng = {lat: parseFloat(position.lat), lng: parseFloat(position.lng)};
+          geocoder.geocode({'location': latlng}, function(results,status){
+          if (status === 'OK') {
+            if (results[1]) {
+              console.log(results[1]);
+            } else {
+              //window.alert('No results found');
+            }
+          } else {
+            //window.alert('Geocoder failed due to: ' + status);
+          }
+          });
+
         // Run ajax call which fetches foursquare data
         // and stores in foursquare_data object
         new ajaxCall(foursquareId,i);
@@ -86,8 +101,6 @@ function initMap() {
     var marker = new google.maps.Marker({
         map: map,
         title: title,
-        //foursquareId: foursquareId,
-        //testName: testName,
         animation: google.maps.Animation.DROP,
         position: position
     });
@@ -99,8 +112,23 @@ function initMap() {
     // Click marker to open infowindow
     marker.addListener('click', function() {
 
-      infoWindowContent = '<div class="iw-content">'+
-                            this.title + this.foursquare_data.location.address +
+      var rating = this.foursquare_data.rating;
+
+      function checkData(input){
+          if (input === undefined){
+            return "No data here.";
+          } else {
+            return input;
+          }
+      };
+
+      infoWindowContent = '<div class="window-content">'+
+                            '<h2>' + this.title + '</h2>' +
+                            'Address: ' + this.foursquare_data.location.address + '<br/>' +
+                            //'Neighborhood: ' +
+                            //'Status: ' + this.foursquare_data.hours.status + '<br/>' +
+                            // Website
+                            'Rating: ' + checkData(rating) +
                           '</div>';
       infowindow.setContent(infoWindowContent);
       infowindow.open(map, this);
@@ -150,6 +178,7 @@ function ajaxCall(foursquareId,index){
 };
 
 // [] - Style infowindow
+// [] - Use Geocoder to get Shop neighborhood via maps API:         //console.log(geocoder.geocode({position}));
 // - How to make infowindow setcontent modular (use for both listview and event marker)
 
 
