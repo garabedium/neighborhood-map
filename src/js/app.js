@@ -43,7 +43,7 @@ function ViewModel(){
 
   // Show infoWindow on list view click
   self.setInfoWindow = function(){
-      this.infowindow.setContent(this.title);
+      this.infowindow.setContent(this.title + this.marker.foursquare_data.location.address);
       //this.infowindow.setContent(self.shops.foursquare_data.location.address);
       this.infowindow.open(map, this.marker);
   };
@@ -79,23 +79,32 @@ function initMap() {
         foursquareId = data.foursquare_id,
         position = data.location;
 
+        // Run ajax call which fetches foursquare data
+        // and stores in foursquare_data object
+        new ajaxCall(foursquareId,i);
+
     var marker = new google.maps.Marker({
         map: map,
         title: title,
-        //content: content,
+        //foursquareId: foursquareId,
+        //testName: testName,
         animation: google.maps.Animation.DROP,
         position: position
     });
 
-        // Add properties to the model: marker, infowindow, ajax calls etc.
+        // Add properties to the model: marker, infowindow
         data.marker = marker;
         data.infowindow = infowindow;
-        data.ajax = new ajaxCall(foursquareId,i);
 
-    // Click event to open infowindows and content
+    // Click marker to open infowindow
     marker.addListener('click', function() {
-      infowindow.setContent(this.title + Model.shops[0].foursquare_data.name);
+
+      infoWindowContent = '<div class="iw-content">'+
+                          this.title + this.foursquare_data.location.address +
+                          '</div>';
+      infowindow.setContent(infoWindowContent);
       infowindow.open(map, this);
+
     });
 
     bounds.extend(data.marker.position);
@@ -125,7 +134,7 @@ function ajaxCall(foursquareId,index){
               var data = JSON.parse(xhr.responseText);
                   data = data.response.venue;
 
-                Model.shops[index].foursquare_data = data;
+                Model.shops[index].marker.foursquare_data = data;
           }
           else {
               //alert('Request failed. Returned status of ' + xhr.status);
@@ -140,11 +149,8 @@ function ajaxCall(foursquareId,index){
 
 };
 
+// [] - Style infowindow
+// - How to make infowindow setcontent modular (use for both listview and event marker)
 
 
-// ex call: https://api.foursquare.com/v2/venues/55973b17498ec0e201f6c7ec/?&client_id=UAFFBB0O2TLTR0OFPRTCUIVPIWOQN14LCJLAQQUUNGQQYFR3&client_secret=XAZIFQIDGV5SIFNSLJVEPRHOPRO3WNCI0GUNXLZAIDPOSIS1&v=20130815
-// tips: Model.shops[6].ajaxResponse.tips.groups[0].items[i].text
-// hours: data.hours
-// Get address and hours
-// http://jsonviewer.stack.hu/#api.foursquare.com/v2/venues/55973b17498ec0e201f6c7ec/?&client_id=UAFFBB0O2TLTR0OFPRTCUIVPIWOQN14LCJLAQQUUNGQQYFR3&client_secret=XAZIFQIDGV5SIFNSLJVEPRHOPRO3WNCI0GUNXLZAIDPOSIS1&v=20130815
 

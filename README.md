@@ -27,7 +27,7 @@ Go online to....
 [X] Make a filter option that uses an input field to filter both list and map view.
 [X] Open infowindow when map marker is itself is clicked
 [X] Open map infowindow when list item is clicked
-[] Load APIs asyonchronously
+[X] Load APIs asyonchronously
 [] Add third party API info when a map marker or list item is clicked
 [] Interface should be intuitive
 
