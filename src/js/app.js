@@ -100,7 +100,7 @@ function initMap() {
     marker.addListener('click', function() {
 
       infoWindowContent = '<div class="iw-content">'+
-                          this.title + this.foursquare_data.location.address +
+                            this.title + this.foursquare_data.location.address +
                           '</div>';
       infowindow.setContent(infoWindowContent);
       infowindow.open(map, this);
