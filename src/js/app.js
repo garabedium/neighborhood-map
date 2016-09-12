@@ -1,4 +1,4 @@
-0
+
 var Model = {
   shops:[
     {title:'Bike House', foursquare_id: '55ce7fa6498eba4dad0a3907', location: {lat: -23.5630337, lng: -46.6908191}},
@@ -183,50 +183,53 @@ function ajaxCall(foursquareId,index){
 
 function setInfoWindowContent(input){
 
-    // var markerData = [
-    //   {label: 'Title', data: input.title},
-    //   {label: 'Address', data: input.foursquare_data.location.address},
-    //   {label: 'Rating', data: input.foursquare_data.rating},
-    //   //{label: 'Status', data: input.foursquare_data.hours.status},
-    // ];
+    var markerData = [
+      {label: 'Title', data: input.title},
+      {label: 'Address', data: input.foursquare_data.location.address},
+      {label: 'Rating', data: input.foursquare_data.rating},
+      //{label: 'Status', data: input.foursquare_data.hours.status},
+    ];
 
-        // var infoWindowTemplate = document.createElement('div');
-        // infoWindowTemplate.class="window-content";
+    var infoWindowTemplate = document.createElement('div');
+        infoWindowTemplate.className = "window-content";
+
+  function checkWindowContent(){
+
+    markerData.forEach(function(item){
+
+      var label = item.label,
+          data = item.data,
+          labelData = '';
+
+        if (data !== undefined){
+
+          labelData = label + " " + data;
+
+          contentItem = document.createElement('li');
+          contentItem.innerHTML = labelData;
+
+          infoWindowTemplate.appendChild(contentItem);
+
+        } else {
+          // do nothing
+        }
+
+      });
+
+  }; checkWindowContent();
 
 
-    // function markerDataTest(){
+     //var infoWindowContent = '<div class="window-content">' +  + '</div>';
+                            //'<h2>' + input.title + '</h2>' +
 
-    //   markerData.forEach(function(item){
-
-    //     if (item.data === undefined){
-    //       return "bosta";
-    //     } else {
-    //       return item.label + " " + item.data;
-    //     }
-    //   });
-
-    // };
-
-
-    // Make sure marker data is valid
-    // Create template
-    //   function checkData(input){
-    //       if (input === undefined){
-    //         return "No data here.";
-    //       } else {
-    //         return input;
-    //       }
-    //   };
-
-     var infoWindowContent = '<div class="window-content">'+
-                            '<h2>' + input.title + '</h2>' +
-                            'Address: ' + input.foursquare_data.location.address + '<br/>' +
+                            // 'Address: ' + input.foursquare_data.location.address + '<br/>' +
                             //'Neighborhood: ' +
                             //'Status: ' + this.foursquare_data.hours.status + '<br/>' +
                             // Website
                             //'Rating: ' + checkData(rating) +
-                          '</div>';
-    infowindow.setContent(infoWindowContent);
+
+
+    infowindow.setContent(infoWindowTemplate);
     infowindow.open(map, input);
 }
 
