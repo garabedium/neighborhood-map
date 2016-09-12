@@ -1,4 +1,4 @@
-
+0
 var Model = {
   shops:[
     {title:'Bike House', foursquare_id: '55ce7fa6498eba4dad0a3907', location: {lat: -23.5630337, lng: -46.6908191}},
@@ -13,7 +13,10 @@ var Model = {
 
 // Global Variables
 var map,
-    mapOptions;
+    mapOptions,
+    infowindow,
+    bounds,
+    geocoder;
 
 function initApp(){
   // If gmaps API loads, start our map and apply bindings
@@ -69,9 +72,9 @@ function initMap() {
     mapOptions = { mapTypeControl: false };
     map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-    var infowindow = new google.maps.InfoWindow(),
-        bounds = new google.maps.LatLngBounds(),
-        geocoder = new google.maps.Geocoder();
+    infowindow = new google.maps.InfoWindow();
+    bounds = new google.maps.LatLngBounds();
+    geocoder = new google.maps.Geocoder();
 
   for (var i = 0; i < Model.shops.length; i++) {
 
@@ -85,7 +88,7 @@ function initMap() {
           geocoder.geocode({'location': latlng}, function(results,status){
           if (status === 'OK') {
             if (results[1]) {
-              console.log(results[1]);
+              //console.log(results[1]);
             } else {
               //window.alert('No results found');
             }
@@ -111,27 +114,28 @@ function initMap() {
 
     // Click marker to open infowindow
     marker.addListener('click', function() {
+      setInfoWindowContent(this);
+      //console.log(this);
+      // var rating = this.foursquare_data.rating;
 
-      var rating = this.foursquare_data.rating;
+      // function checkData(input){
+      //     if (input === undefined){
+      //       return "No data here.";
+      //     } else {
+      //       return input;
+      //     }
+      // };
 
-      function checkData(input){
-          if (input === undefined){
-            return "No data here.";
-          } else {
-            return input;
-          }
-      };
-
-      infoWindowContent = '<div class="window-content">'+
-                            '<h2>' + this.title + '</h2>' +
-                            'Address: ' + this.foursquare_data.location.address + '<br/>' +
-                            //'Neighborhood: ' +
-                            //'Status: ' + this.foursquare_data.hours.status + '<br/>' +
-                            // Website
-                            'Rating: ' + checkData(rating) +
-                          '</div>';
-      infowindow.setContent(infoWindowContent);
-      infowindow.open(map, this);
+      // infoWindowContent = '<div class="window-content">'+
+      //                       '<h2>' + this.title + '</h2>' +
+      //                       'Address: ' + this.foursquare_data.location.address + '<br/>' +
+      //                       //'Neighborhood: ' +
+      //                       //'Status: ' + this.foursquare_data.hours.status + '<br/>' +
+      //                       // Website
+      //                       'Rating: ' + checkData(rating) +
+      //                     '</div>';
+      // infowindow.setContent(infoWindowContent);
+      // infowindow.open(map, this);
 
     });
 
@@ -176,6 +180,55 @@ function ajaxCall(foursquareId,index){
     }
 
 };
+
+function setInfoWindowContent(input){
+
+    // var markerData = [
+    //   {label: 'Title', data: input.title},
+    //   {label: 'Address', data: input.foursquare_data.location.address},
+    //   {label: 'Rating', data: input.foursquare_data.rating},
+    //   //{label: 'Status', data: input.foursquare_data.hours.status},
+    // ];
+
+        // var infoWindowTemplate = document.createElement('div');
+        // infoWindowTemplate.class="window-content";
+
+
+    // function markerDataTest(){
+
+    //   markerData.forEach(function(item){
+
+    //     if (item.data === undefined){
+    //       return "bosta";
+    //     } else {
+    //       return item.label + " " + item.data;
+    //     }
+    //   });
+
+    // };
+
+
+    // Make sure marker data is valid
+    // Create template
+    //   function checkData(input){
+    //       if (input === undefined){
+    //         return "No data here.";
+    //       } else {
+    //         return input;
+    //       }
+    //   };
+
+     var infoWindowContent = '<div class="window-content">'+
+                            '<h2>' + input.title + '</h2>' +
+                            'Address: ' + input.foursquare_data.location.address + '<br/>' +
+                            //'Neighborhood: ' +
+                            //'Status: ' + this.foursquare_data.hours.status + '<br/>' +
+                            // Website
+                            //'Rating: ' + checkData(rating) +
+                          '</div>';
+    infowindow.setContent(infoWindowContent);
+    infowindow.open(map, input);
+}
 
 // [] - Style infowindow
 // [] - Use Geocoder to get Shop neighborhood via maps API:         //console.log(geocoder.geocode({position}));
