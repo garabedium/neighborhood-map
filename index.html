@@ -11,32 +11,34 @@
 
   <header>
 
-    <div class="container">
+<!--     <div class="container">
       <div class="row">
         <h1 data-bind="text: appName"></h1>
-        <form>
-          <input type="search" name="search" autocomplete="off" placeholder="Search"
-            data-bind="textInput: searchQuery"> <!-- , event:{keyup: search }-->
-        </form>
-        <ul id="results" data-bind="foreach: search">
-            <li>
-              <button data-bind="text: title, click: $parent.setInfoWindow" type="button"></button>
-            </li>
-        </ul>
       </div>
-    </div>
+    </div> -->
+
+    <form id='search'>
+      <input type="search" name="search" autocomplete="off" placeholder="Search"
+        data-bind="textInput: searchQuery"> <!-- , event:{keyup: search }-->
+    </form>
 
   </header>
 
+  <ul id="results" data-bind="foreach: search">
+      <li>
+        <button data-bind="text: title, click: $parent.setInfoWindow" type="button"></button>
+      </li>
+  </ul>
+
   <section id="map"></section>
 
-<div class="container">
+<!-- <div class="container">
   <div class="row">
     <section id="footer">
       footer goes here
     </section>
   </div>
-</div>
+</div> -->
 <script async defer
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOomDghDBh0XiIpMbixy04-X1aSNnGhkU&callback=initApp" onerror="initApp()">
 </script>

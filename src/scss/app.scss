@@ -1,16 +1,55 @@
+body, html{
+	height: 100%;
+	width: 100%;
+}
+// Map
 #map {
 	width: 100%;
-	height: 350px;
+	height: 90%;
 
 	// InfoWindow styles
 	.window-content {
+		ul {
+			li {
+				list-style-type: none;
+			}
+		}
 		h2 {
 			font-size: 3rem;
 			margin-bottom:.5rem;
 		}
 	}
 }
-
+// Search
+#search{
+	margin: 0;
+	input{
+		width: 100%;
+		margin: 0;
+		border-radius: 0;
+		border-bottom: solid 4px #006382;
+	}
+}
+#results{
+	position: absolute;
+	z-index: 99;
+	margin: 0;
+	background: #33C3F0;
+	li {
+		list-style-type: none;
+		margin: 0;
+		border-bottom: solid 1px #51d6ff;
+		button {
+			margin: 0;
+			width: 100%;
+			border-radius: 0;
+			border: 0;
+			&:hover {
+				background-color: #51d6ff;
+			}
+		}
+	}
+}
 #footer {
 	padding: 25px 0;
 }

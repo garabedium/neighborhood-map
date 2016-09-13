@@ -46,9 +46,7 @@ function ViewModel(){
 
   // Show infoWindow on list view click
   self.setInfoWindow = function(){
-      this.infowindow.setContent(this.title + this.marker.foursquare_data.location.address);
-      //this.infowindow.setContent(self.shops.foursquare_data.location.address);
-      this.infowindow.open(map, this.marker);
+      setInfoWindowContent(this.marker);
   };
 
   self.search = ko.pureComputed(function(){
@@ -115,28 +113,6 @@ function initMap() {
     // Click marker to open infowindow
     marker.addListener('click', function() {
       setInfoWindowContent(this);
-      //console.log(this);
-      // var rating = this.foursquare_data.rating;
-
-      // function checkData(input){
-      //     if (input === undefined){
-      //       return "No data here.";
-      //     } else {
-      //       return input;
-      //     }
-      // };
-
-      // infoWindowContent = '<div class="window-content">'+
-      //                       '<h2>' + this.title + '</h2>' +
-      //                       'Address: ' + this.foursquare_data.location.address + '<br/>' +
-      //                       //'Neighborhood: ' +
-      //                       //'Status: ' + this.foursquare_data.hours.status + '<br/>' +
-      //                       // Website
-      //                       'Rating: ' + checkData(rating) +
-      //                     '</div>';
-      // infowindow.setContent(infoWindowContent);
-      // infowindow.open(map, this);
-
     });
 
     bounds.extend(data.marker.position);
@@ -183,7 +159,8 @@ function ajaxCall(foursquareId,index){
 
 function setInfoWindowContent(input){
 
-  var infoWindowTemplate = document.createElement('div');
+  var infoWindowTemplate = document.createElement('div'),
+      contentList = document.createElement('ul');
       infoWindowTemplate.className = "window-content";
 
   var markerData = [
@@ -193,14 +170,13 @@ function setInfoWindowContent(input){
   ];
 
   if (input.foursquare_data.hours !== undefined){
-    //console.log(input.foursquare_data.hours.status);
     var newObject = {label: 'Status', data: input.foursquare_data.hours.status};
     markerData.push(newObject);
   }
 
   function addInfoWindowContent(){
 
-    markerData.forEach(function(item){
+    markerData.forEach(function(item, i){
 
       var label = item.label,
           data = item.data,
@@ -208,16 +184,17 @@ function setInfoWindowContent(input){
 
         if (data !== undefined){
 
-          if (label === undefined){
-            labelData = data;
+          if (i == 0){
+            labelData = '<h2>' + data + '</h2>';
           } else {
-            labelData = label + " " + data;
+            labelData = '<strong>' + label + '</strong>' + ": " + data;
           }
 
           contentItem = document.createElement('li');
           contentItem.innerHTML = labelData;
 
-          infoWindowTemplate.appendChild(contentItem);
+          contentList.appendChild(contentItem);
+          infoWindowTemplate.appendChild(contentList);
 
         } else {
           // do nothing
