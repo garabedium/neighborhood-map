@@ -2,7 +2,7 @@
 var Model = {
   shops:[
     {title:'Bike House', foursquare_id: '55ce7fa6498eba4dad0a3907', location: {lat: -23.5630337, lng: -46.6908191}},
-    {title:'Vela Bikes', foursquare_id: '', location: {lat: -23.5601576, lng: -46.6821728}},
+    //{title:'Vela Bikes', foursquare_id: '', location: {lat: -23.5601576, lng: -46.6821728}},
     {title:'Avanti Bike', foursquare_id: '4e468a8762e148603b732c4a', location: {lat: -23.5999037, lng: -46.6667808}},
     {title:'Bike Tech Jardins', foursquare_id: '4bc619776c26b713e74cecf3', location: {lat: -23.5613691, lng: -46.6690169}},
     {title:'Pedal Urbano', foursquare_id: '4ccb248797d0224bdf6e57b8', location: {lat: -23.5477529, lng: -46.688361}},
@@ -183,17 +183,22 @@ function ajaxCall(foursquareId,index){
 
 function setInfoWindowContent(input){
 
-    var markerData = [
-      {label: 'Title', data: input.title},
-      {label: 'Address', data: input.foursquare_data.location.address},
-      {label: 'Rating', data: input.foursquare_data.rating},
-      //{label: 'Status', data: input.foursquare_data.hours.status},
-    ];
+  var infoWindowTemplate = document.createElement('div');
+      infoWindowTemplate.className = "window-content";
 
-    var infoWindowTemplate = document.createElement('div');
-        infoWindowTemplate.className = "window-content";
+  var markerData = [
+    {data: input.title},
+    {label: 'Address', data: input.foursquare_data.location.address},
+    {label: 'Rating', data: input.foursquare_data.rating},
+  ];
 
-  function checkWindowContent(){
+  if (input.foursquare_data.hours !== undefined){
+    //console.log(input.foursquare_data.hours.status);
+    var newObject = {label: 'Status', data: input.foursquare_data.hours.status};
+    markerData.push(newObject);
+  }
+
+  function addInfoWindowContent(){
 
     markerData.forEach(function(item){
 
@@ -203,7 +208,11 @@ function setInfoWindowContent(input){
 
         if (data !== undefined){
 
-          labelData = label + " " + data;
+          if (label === undefined){
+            labelData = data;
+          } else {
+            labelData = label + " " + data;
+          }
 
           contentItem = document.createElement('li');
           contentItem.innerHTML = labelData;
@@ -216,18 +225,7 @@ function setInfoWindowContent(input){
 
       });
 
-  }; checkWindowContent();
-
-
-     //var infoWindowContent = '<div class="window-content">' +  + '</div>';
-                            //'<h2>' + input.title + '</h2>' +
-
-                            // 'Address: ' + input.foursquare_data.location.address + '<br/>' +
-                            //'Neighborhood: ' +
-                            //'Status: ' + this.foursquare_data.hours.status + '<br/>' +
-                            // Website
-                            //'Rating: ' + checkData(rating) +
-
+  }; addInfoWindowContent();
 
     infowindow.setContent(infoWindowTemplate);
     infowindow.open(map, input);
