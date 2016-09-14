@@ -28,7 +28,7 @@ Go online to....
 [X] Open infowindow when map marker is itself is clicked
 [X] Open map infowindow when list item is clicked
 [X] Load APIs asyonchronously
-[] Add third party API info when a map marker or list item is clicked
+[X] Add third party API info when a map marker or list item is clicked
 [] Interface should be intuitive
 
 ### Outline

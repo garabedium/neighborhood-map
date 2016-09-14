@@ -2,7 +2,6 @@
 var Model = {
   shops:[
     {title:'Bike House', foursquare_id: '55ce7fa6498eba4dad0a3907', location: {lat: -23.5630337, lng: -46.6908191}},
-    //{title:'Vela Bikes', foursquare_id: '', location: {lat: -23.5601576, lng: -46.6821728}},
     {title:'Avanti Bike', foursquare_id: '4e468a8762e148603b732c4a', location: {lat: -23.5999037, lng: -46.6667808}},
     {title:'Bike Tech Jardins', foursquare_id: '4bc619776c26b713e74cecf3', location: {lat: -23.5613691, lng: -46.6690169}},
     {title:'Pedal Urbano', foursquare_id: '4ccb248797d0224bdf6e57b8', location: {lat: -23.5477529, lng: -46.688361}},
@@ -209,8 +208,6 @@ function setInfoWindowContent(input){
 }
 
 // [] - Style infowindow
-// [] - Use Geocoder to get Shop neighborhood via maps API:         //console.log(geocoder.geocode({position}));
-// - How to make infowindow setcontent modular (use for both listview and event marker)
-
-
+// [] - Use Geocoder to get Shop neighborhood via maps API: //console.log(geocoder.geocode({position}));
+// [X]- Make infowindow call modular (for marker and button)
 

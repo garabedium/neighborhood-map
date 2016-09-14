@@ -9,36 +9,29 @@
 </head>
 <body>
 
-  <header>
+<header>
+  <section id="menu">
+    <h1 data-bind="text: appName"></h1>
+  </section>
+  <section id='search'>
+    <input type="search" name="search" autocomplete="off" placeholder="Search"
+      data-bind="textInput: searchQuery">
+  </section>
+</header>
 
-<!--     <div class="container">
-      <div class="row">
-        <h1 data-bind="text: appName"></h1>
-      </div>
-    </div> -->
+<section id="listview">
 
-    <form id='search'>
-      <input type="search" name="search" autocomplete="off" placeholder="Search"
-        data-bind="textInput: searchQuery"> <!-- , event:{keyup: search }-->
-    </form>
+    <ul id="results" data-bind="foreach: search">
+        <li>
+          <button data-bind="text: title, click: $parent.setInfoWindow" type="button"></button>
+        </li>
+    </ul>
 
-  </header>
+</section>
 
-  <ul id="results" data-bind="foreach: search">
-      <li>
-        <button data-bind="text: title, click: $parent.setInfoWindow" type="button"></button>
-      </li>
-  </ul>
+<section id="map"></section>
 
-  <section id="map"></section>
 
-<!-- <div class="container">
-  <div class="row">
-    <section id="footer">
-      footer goes here
-    </section>
-  </div>
-</div> -->
 <script async defer
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOomDghDBh0XiIpMbixy04-X1aSNnGhkU&callback=initApp" onerror="initApp()">
 </script>
