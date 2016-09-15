@@ -1,3 +1,6 @@
+// Vars
+$listViewWidth: 200px;
+
 body, html{
 	height: 100%;
 	width: 100%;
@@ -40,10 +43,8 @@ header{
 // Search
 #search{
 	margin: 0;
-	// position: absolute;
-	// z-index:100;
 	input{
-		width: 197px;
+		width: $listViewWidth;
 		margin: 0;
 		border-radius: 0;
 		border-bottom: solid 4px #006382;
@@ -55,20 +56,25 @@ header{
 	position: absolute;
 	z-index: 99;
 	margin: 0;
-	max-width: 30%;
+	width: $listViewWidth;
 	top: 84px;
-	#results{
-		background: #33C3F0;
+	ul#results{
+		width: 100%;
 		li {
+			position: relative;
 			list-style-type: none;
 			margin: 0;
-			border-bottom: solid 1px #51d6ff;
-			button {
-				margin: 0;
-				padding: 0 40px;
+			width: 100%;
+			cursor: pointer;
+			display: block;
+			a {
+				display: inline-block;
 				width: 100%;
-				border-radius: 0;
-				border: 0;
+				background: #33C3F0;
+				border-bottom: solid 1px #51d6ff;
+				text-align: center;
+				margin: 0;
+				padding: 10px 0;
 				color: #000;
 				&:hover {
 					background-color: #51d6ff;
