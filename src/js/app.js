@@ -170,6 +170,10 @@ var map,
 
     input.setIcon(activeIcon);
 
+    google.maps.event.addListener(infowindow,'closeclick',function(){
+      input.setIcon(defaultIcon);
+    });
+
     var infoWindowTemplate = document.createElement('div'),
         contentList = document.createElement('ul');
         infoWindowTemplate.className = "window-content";

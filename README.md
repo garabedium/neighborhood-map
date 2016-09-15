@@ -19,6 +19,7 @@
 - [Add Property to Array](http://stackoverflow.com/questions/9952126/add-property-to-javascript-array)
 - [Array Search](http://www.w3schools.com/jsref/jsref_indexof_array.asp)
 - [Marker Search](https://discussions.udacity.com/t/no-idea-how-to-implement-the-search-function/182184/12)
+- [Maps Close Event](http://stackoverflow.com/questions/6777721/google-maps-api-v3-infowindow-close-event-callback)
 - [Foursquare API](https://developer.foursquare.com/docs/venues/search)
 - [Google Maps API](https://developers.google.com/maps/documentation/javascript/)
 - [KnockoutJS](http://knockoutjs.com/documentation/introduction.html)

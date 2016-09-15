@@ -13,10 +13,6 @@
   <section id="menu">
     <h1>SP Bike Shopper</h1>
   </section>
-  <section id='search'>
-    <input type="search" name="search" autocomplete="off" placeholder="Search"
-      data-bind="textInput: searchQuery">
-  </section>
 </header>
 
 <section id="errors" class="hide">
@@ -33,6 +29,10 @@
 </section>
 
 <section id="listview">
+    <section id='search'>
+      <input type="search" name="search" autocomplete="off" placeholder="Search"
+        data-bind="textInput: searchQuery">
+    </section>
     <ul id="results" data-bind="foreach: search">
         <li>
           <a data-bind="text: title, click: $parent.setInfoWindow"></a>
