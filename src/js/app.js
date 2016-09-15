@@ -23,27 +23,40 @@ var map,
 
 function initApp(){
   // If gmaps API loads, start our map and apply Knockout bindings
+  // Else, show the user an error message
   if (typeof google !== 'undefined'){
     initMap();
     ko.applyBindings(new ViewModel());
   } else {
-    apiFallback('gmaps');
+    errorHandler('gmaps');
   }
 };
 
-function apiFallback(input){
-  if (input === 'gmaps'){
-    console.log('houston, where is texas?');
-  } else if (input === 'foursquare'){
-    console.log('something else')
-  }
-}
+function errorHandler(input){
+
+  var errorWrapper = document.getElementById('errors'),
+      errorMaps = document.getElementById('error-map'),
+      errorFoursquare = document.getElementById('error-foursquare');
+
+      // Show the error wrapper
+      errorWrapper.className="";
+
+    if (input === 'gmaps'){
+
+      errorMaps.className="error";
+
+    } else if (input === 'foursquare'){
+
+      errorFoursquare.className="error";
+
+    }
+
+};
 
 function ViewModel(){
 
   var self = this;
 
-  self.appName = ko.observable('SP Bike Shopper');
   self.shops = ko.observableArray(Model.shops);
   self.searchQuery = ko.observable('');
 
@@ -148,8 +161,7 @@ function ajaxCall(foursquareId,index){
                 Model.shops[index].marker.foursquare_data = data;
           }
           else {
-              //alert('Request failed. Returned status of ' + xhr.status);
-              apiFallback('foursquare');
+              errorHandler('foursquare');
           }
       };
       xhr.send();

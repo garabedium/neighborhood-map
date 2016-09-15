@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Neighborhood Map Project</title>
+	<title>Neighborhood Map - SP Bike Shopper</title>
   <link rel="shortcut icon" href="data:image/x-icon;" type="image/x-icon">
 	<link rel="stylesheet" type="text/css" href="dist/css/normalize.css">
   <link rel="stylesheet" type="text/css" href="dist/css/skeleton.css">
@@ -11,7 +11,7 @@
 
 <header>
   <section id="menu">
-    <h1 data-bind="text: appName"></h1>
+    <h1>SP Bike Shopper</h1>
   </section>
   <section id='search'>
     <input type="search" name="search" autocomplete="off" placeholder="Search"
@@ -19,14 +19,25 @@
   </section>
 </header>
 
-<section id="listview">
+<section id="errors" class="hide">
+  <div class="error hide" id="error-map">
+    <h3>Oops. Flat Tire.</h3>
+    <p>Google Maps didn't load properly. <br/> Check your Internet connection and we'll grab a pump.</p>
+    <a href="/map-project" class="button button-primary">Reload the Page</a>
+  </div>
+  <div class="error hide" id="error-foursquare">
+    <h3>Oops. Flat Tire.</h3>
+    <p>Foursquare didn't load properly. <br/> Check your Internet connection and we'll grab a pump.</p>
+    <a href="/map-project" class="button button-primary">Reload the Page</a>
+  </div>
+</section>
 
+<section id="listview">
     <ul id="results" data-bind="foreach: search">
         <li>
           <a data-bind="text: title, click: $parent.setInfoWindow"></a>
         </li>
     </ul>
-
 </section>
 
 <section id="map"></section>
@@ -37,8 +48,6 @@
 </script>
 <script src="dist/js/knockoutjs-3.4.0.min.js"></script>
 <script src="src/js/app.js"></script>
-
-
 
 </body>
 </html>

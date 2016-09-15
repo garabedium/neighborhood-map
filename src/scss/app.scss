@@ -50,6 +50,7 @@ header{
 		border-bottom: solid 4px #006382;
 		border-left: 0;
 		border-right: 0;
+		text-align: center;
 	}
 }
 #listview {
@@ -82,4 +83,28 @@ header{
 			}
 		}
 	}
+}
+#errors{
+	display: block;
+	max-width: 400px;
+    position: absolute;
+    background: #ddd;
+    top: 50px;
+    z-index: 103;
+    left: 0;
+    right: 0;
+    margin: auto;
+    text-align: center;
+    .error {
+    	padding: 15px 0;
+    }
+    #error-map, #error-foursquare{
+    	display: block;
+    }
+}
+.hide{
+	display: none !important;
+}
+.show{
+	display: block;
 }
