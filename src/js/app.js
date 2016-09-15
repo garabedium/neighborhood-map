@@ -1,4 +1,5 @@
 
+// Data
 var Model = {
   shops:[
     {title:'Bike House', foursquare_id: '55ce7fa6498eba4dad0a3907', location: {lat: -23.5630337, lng: -46.6908191}},
@@ -10,6 +11,9 @@ var Model = {
   ]
 };
 
+// Sort shops array A-Z
+Model.shops.sort(function (first, second) { return first.title > second.title ? 1 : -1 });
+
 // Global Variables
 var map,
     mapOptions,
@@ -18,7 +22,7 @@ var map,
     geocoder;
 
 function initApp(){
-  // If gmaps API loads, start our map and apply bindings
+  // If gmaps API loads, start our map and apply Knockout bindings
   if (typeof google !== 'undefined'){
     initMap();
     ko.applyBindings(new ViewModel());
@@ -207,7 +211,6 @@ function setInfoWindowContent(input){
     infowindow.open(map, input);
 }
 
-// [] - Style infowindow
 // [] - Use Geocoder to get Shop neighborhood via maps API: //console.log(geocoder.geocode({position}));
-// [X]- Make infowindow call modular (for marker and button)
+
 
