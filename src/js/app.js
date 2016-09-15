@@ -19,210 +19,203 @@ var map,
     mapOptions,
     infowindow,
     bounds,
-    geocoder;
+    geocoder,
+    defaultIcon,
+    activeIcon;
 
-function initApp(){
+    defaultIcon = 'https://www.google.com/mapfiles/marker.png';
+    activeIcon = 'https://www.google.com/mapfiles/marker_green.png';
+
   // If gmaps API loads, start our map and apply Knockout bindings
   // Else, show the user an error message
-  if (typeof google !== 'undefined'){
-    initMap();
-    ko.applyBindings(new ViewModel());
-  } else {
-    errorHandler('gmaps');
-  }
-};
-
-function errorHandler(input){
-
-  var errorWrapper = document.getElementById('errors'),
-      errorMaps = document.getElementById('error-map'),
-      errorFoursquare = document.getElementById('error-foursquare');
-
-      // Show the error wrapper
-      errorWrapper.className="";
-
-    if (input === 'gmaps'){
-
-      errorMaps.className="error";
-
-    } else if (input === 'foursquare'){
-
-      errorFoursquare.className="error";
-
+  function initApp(){
+    if (typeof google !== 'undefined'){
+      initMap();
+      ko.applyBindings(new ViewModel());
+    } else {
+      errorHandler('gmaps');
     }
-
-};
-
-function ViewModel(){
-
-  var self = this;
-
-  self.shops = ko.observableArray(Model.shops);
-  self.searchQuery = ko.observable('');
-
-  // Show infoWindow on list view click
-  self.setInfoWindow = function(){
-      setInfoWindowContent(this.marker);
   };
 
-  self.search = ko.pureComputed(function(){
-    return ko.utils.arrayFilter(self.shops(), function(item){
+  function errorHandler(input){
+    var errorWrapper = document.getElementById('errors'),
+        errorMaps = document.getElementById('error-map'),
+        errorFoursquare = document.getElementById('error-foursquare');
 
-      // Check if searchQuery matches shop array title
-      var match = item.title.toLowerCase().indexOf(self.searchQuery().toLowerCase()) >= 0;
+        // Show the error wrapper
+        errorWrapper.className="";
 
-      // Show marker
-      item.marker.setVisible(match);
+      if (input === 'gmaps'){
+        errorMaps.className="error";
+      } else if (input === 'foursquare'){
+        errorFoursquare.className="error";
+      }
+  };
 
-      return match;
+  function ViewModel(){
 
-    });
-  });
+    var self = this;
 
-};
+    self.shops = ko.observableArray(Model.shops);
+    self.searchQuery = ko.observable('');
 
-function initMap() {
+    // Show infoWindow on list view click
+    self.setInfoWindow = function(){
+        setInfoWindowContent(this.marker);
+    };
 
-    mapOptions = { mapTypeControl: false };
-    map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    self.search = ko.pureComputed(function(){
+      return ko.utils.arrayFilter(self.shops(), function(item){
 
-    infowindow = new google.maps.InfoWindow();
-    bounds = new google.maps.LatLngBounds();
-    geocoder = new google.maps.Geocoder();
+        // Check if searchQuery matches shop array title
+        var match = item.title.toLowerCase().indexOf(self.searchQuery().toLowerCase()) >= 0;
 
-  for (var i = 0; i < Model.shops.length; i++) {
+        // Show marker
+        item.marker.setVisible(match);
 
-    var data =  Model.shops[i],
-        title = data.title,
-        foursquareId = data.foursquare_id,
-        position = data.location;
-
-        // GeoCode expirments
-          var latlng = {lat: parseFloat(position.lat), lng: parseFloat(position.lng)};
-          geocoder.geocode({'location': latlng}, function(results,status){
-          if (status === 'OK') {
-            if (results[1]) {
-              //console.log(results[1]);
-            } else {
-              //window.alert('No results found');
-            }
-          } else {
-            //window.alert('Geocoder failed due to: ' + status);
-          }
-          });
-
-        // Run ajax call which fetches foursquare data
-        // and stores in foursquare_data object
-        new ajaxCall(foursquareId,i);
-
-    var marker = new google.maps.Marker({
-        map: map,
-        title: title,
-        animation: google.maps.Animation.DROP,
-        position: position
-    });
-
-        // Add properties to the model: marker, infowindow
-        data.marker = marker;
-        data.infowindow = infowindow;
-
-    // Click marker to open infowindow
-    marker.addListener('click', function() {
-      setInfoWindowContent(this);
-    });
-
-    bounds.extend(data.marker.position);
-
-  }
-    map.fitBounds(bounds);
-
-}; //initMap
-
-function ajaxCall(foursquareId,index){
-
-    // Run ajax request only if a foursquare_id exists for the shop
-    if (foursquareId !== ''){
-
-      var xhr = new XMLHttpRequest();
-
-      var apiBase = 'https://api.foursquare.com/v2/venues/',
-          apiClientId = '&client_id=' + 'UAFFBB0O2TLTR0OFPRTCUIVPIWOQN14LCJLAQQUUNGQQYFR3',
-          apiClientSecret = '&client_secret=' + 'XAZIFQIDGV5SIFNSLJVEPRHOPRO3WNCI0GUNXLZAIDPOSIS1',
-          apiVersion = '&v=' + 20130815,
-          apiVenueId = ''+ foursquareId + '/?' + '',
-          apiCall = ''+ apiBase + apiVenueId + apiClientId + apiClientSecret + apiVersion +'';
-
-      xhr.open('GET', apiCall);
-      xhr.onload = function() {
-          if (xhr.status === 200) {
-              var data = JSON.parse(xhr.responseText);
-                  data = data.response.venue;
-
-                Model.shops[index].marker.foursquare_data = data;
-          }
-          else {
-              errorHandler('foursquare');
-          }
-      };
-      xhr.send();
-
-    } else {
-      // do nothing
-    }
-
-};
-
-function setInfoWindowContent(input){
-
-  var infoWindowTemplate = document.createElement('div'),
-      contentList = document.createElement('ul');
-      infoWindowTemplate.className = "window-content";
-
-  var markerData = [
-    {data: input.title},
-    {label: 'Address', data: input.foursquare_data.location.address},
-    {label: 'Rating', data: input.foursquare_data.rating},
-  ];
-
-  if (input.foursquare_data.hours !== undefined){
-    var newObject = {label: 'Status', data: input.foursquare_data.hours.status};
-    markerData.push(newObject);
-  }
-
-  function addInfoWindowContent(){
-
-    markerData.forEach(function(item, i){
-
-      var label = item.label,
-          data = item.data,
-          labelData = '';
-
-        if (data !== undefined){
-
-          if (i == 0){
-            labelData = '<h2>' + data + '</h2>';
-          } else {
-            labelData = '<strong>' + label + '</strong>' + ": " + data;
-          }
-
-          contentItem = document.createElement('li');
-          contentItem.innerHTML = labelData;
-
-          contentList.appendChild(contentItem);
-          infoWindowTemplate.appendChild(contentList);
-
-        } else {
-          // do nothing
-        }
+        return match;
 
       });
+    });
 
-  }; addInfoWindowContent();
+  };
 
-    infowindow.setContent(infoWindowTemplate);
-    infowindow.open(map, input);
-}
+  function initMap() {
 
-// [] - Use Geocoder to get Shop neighborhood via maps API: //console.log(geocoder.geocode({position}));
+      mapOptions = { mapTypeControl: false };
+      map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
+      infowindow = new google.maps.InfoWindow();
+      bounds = new google.maps.LatLngBounds();
+      geocoder = new google.maps.Geocoder();
 
+    for (var i = 0; i < Model.shops.length; i++) {
+
+      var data =  Model.shops[i],
+          title = data.title,
+          foursquareId = data.foursquare_id,
+          position = data.location;
+
+          // Run ajax call which fetches foursquare data
+          // and stores in foursquare_data object
+          new ajaxCall(foursquareId,i);
+
+      var marker = new google.maps.Marker({
+          map: map,
+          title: title,
+          animation: google.maps.Animation.DROP,
+          position: position,
+          icon: defaultIcon
+      });
+
+          // Add properties to the model: marker, infowindow
+          data.marker = marker;
+          data.infowindow = infowindow;
+
+      // Click marker to open infowindow
+      marker.addListener('click', function() {
+        setInfoWindowContent(this);
+      });
+
+      bounds.extend(data.marker.position);
+
+    }
+      map.fitBounds(bounds);
+
+  };
+
+  function ajaxCall(foursquareId,index){
+
+      // Run ajax request only if a foursquare_id exists for the shop
+      if (foursquareId !== ''){
+
+        var xhr = new XMLHttpRequest();
+
+        var apiBase = 'https://api.foursquare.com/v2/venues/',
+            apiClientId = '&client_id=' + 'UAFFBB0O2TLTR0OFPRTCUIVPIWOQN14LCJLAQQUUNGQQYFR3',
+            apiClientSecret = '&client_secret=' + 'XAZIFQIDGV5SIFNSLJVEPRHOPRO3WNCI0GUNXLZAIDPOSIS1',
+            apiVersion = '&v=' + 20130815,
+            apiVenueId = ''+ foursquareId + '/?' + '',
+            apiCall = ''+ apiBase + apiVenueId + apiClientId + apiClientSecret + apiVersion +'';
+
+        xhr.open('GET', apiCall);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                var data = JSON.parse(xhr.responseText);
+                    data = data.response.venue;
+
+                  Model.shops[index].marker.foursquare_data = data;
+            }
+            else {
+                errorHandler('foursquare');
+            }
+        };
+        xhr.send();
+
+      } else {
+        // do nothing
+      }
+
+  };
+
+  function setInfoWindowContent(input){
+
+    // Reset marker color
+    // Then highlight our current marker
+    function resetMarkerColor(){
+      for (var i = 0; i < Model.shops.length; i++) {
+         Model.shops[i].marker.setIcon(defaultIcon);
+      }
+    }; resetMarkerColor();
+
+    input.setIcon(activeIcon);
+
+    var infoWindowTemplate = document.createElement('div'),
+        contentList = document.createElement('ul');
+        infoWindowTemplate.className = "window-content";
+
+    var markerData = [
+      {data: input.title},
+      {label: 'Address', data: input.foursquare_data.location.address},
+      {label: 'Rating', data: input.foursquare_data.rating},
+    ];
+
+    // Check if hours parent is undefined
+    // If it's defined, add it to markerData
+    // This prevents fatal errors in addInfoWindowContent
+    if (input.foursquare_data.hours !== undefined){
+      var newObject = {label: 'Status', data: input.foursquare_data.hours.status};
+      markerData.push(newObject);
+    }
+
+    function addInfoWindowContent(){
+      markerData.forEach(function(item, i){
+
+        var label = item.label,
+            data = item.data,
+            labelData = '';
+
+          if (data !== undefined){
+
+            if (i == 0){
+              labelData = '<h2>' + data + '</h2>';
+            } else {
+              labelData = '<strong>' + label + '</strong>' + ": " + data;
+            }
+
+            contentItem = document.createElement('li');
+            contentItem.innerHTML = labelData;
+
+            contentList.appendChild(contentItem);
+            infoWindowTemplate.appendChild(contentList);
+
+          } else {
+            // do nothing
+          }
+
+        });
+    }; addInfoWindowContent();
+
+      infowindow.setContent(infoWindowTemplate);
+      infowindow.open(map, input);
+  }

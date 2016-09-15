@@ -42,12 +42,13 @@ header{
 }
 // Search
 #search{
+	width: $listViewWidth;
 	margin: 0;
 	input{
-		width: $listViewWidth;
+		width: 100%;
 		margin: 0;
 		border-radius: 0;
-		border-bottom: solid 4px #006382;
+		border-bottom: solid 2px #006382;
 		border-left: 0;
 		border-right: 0;
 		text-align: center;
