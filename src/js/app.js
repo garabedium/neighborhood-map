@@ -185,7 +185,7 @@ var map,
     ];
 
     // Check if hours parent is undefined
-    // If it's defined, add it to markerData
+    // If it's defined, grab hours.status and add it to markerData
     // This prevents fatal errors in addInfoWindowContent
     if (input.foursquare_data.hours !== undefined){
       var newObject = {label: 'Status', data: input.foursquare_data.hours.status};
