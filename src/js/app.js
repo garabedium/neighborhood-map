@@ -1,4 +1,3 @@
-
 // Data
 var Model = {
   shops:[
@@ -12,7 +11,7 @@ var Model = {
 };
 
 // Sort shops array A-Z
-Model.shops.sort(function (first, second) { return first.title > second.title ? 1 : -1 });
+Model.shops.sort(function (first, second) { return first.title > second.title ? 1 : -1; });
 
 // Global Variables
 var map,
@@ -35,7 +34,7 @@ var map,
     } else {
       errorHandler('gmaps');
     }
-  };
+  }
 
   function errorHandler(input){
     var errorWrapper = document.getElementById('errors'),
@@ -50,7 +49,7 @@ var map,
       } else if (input === 'foursquare'){
         errorFoursquare.className="error";
       }
-  };
+  }
 
   function ViewModel(){
 
@@ -78,7 +77,7 @@ var map,
       });
     });
 
-  };
+  }
 
   function initMap() {
 
@@ -89,7 +88,7 @@ var map,
       bounds = new google.maps.LatLngBounds();
       geocoder = new google.maps.Geocoder();
 
-    for (var i = 0; i < Model.shops.length; i++) {
+    for (var i = 0, len = Model.shops.length; i < len; i++) {
 
       var data =  Model.shops[i],
           title = data.title,
@@ -121,8 +120,7 @@ var map,
 
     }
       map.fitBounds(bounds);
-
-  };
+  }
 
   function ajaxCall(foursquareId,index){
 
@@ -139,24 +137,23 @@ var map,
             apiCall = ''+ apiBase + apiVenueId + apiClientId + apiClientSecret + apiVersion +'';
 
         xhr.open('GET', apiCall);
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                var data = JSON.parse(xhr.responseText);
-                    data = data.response.venue;
+          xhr.onreadystatechange = function(){
+          if (xhr.readyState === 4) {
+              if (xhr.status === 200) {
+                  var data = JSON.parse(xhr.responseText);
+                      data = data.response.venue;
 
-                  Model.shops[index].marker.foursquare_data = data;
-            }
-            else {
-                errorHandler('foursquare');
-            }
+                    Model.shops[index].marker.foursquare_data = data;
+              }
+              else {
+                  errorHandler('foursquare');
+              }
+          }
         };
         xhr.send();
 
-      } else {
-        // do nothing
       }
-
-  };
+  }
 
   function setInfoWindowContent(input){
 
@@ -213,8 +210,6 @@ var map,
             contentList.appendChild(contentItem);
             infoWindowTemplate.appendChild(contentList);
 
-          } else {
-            // do nothing
           }
 
         });
